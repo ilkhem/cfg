@@ -282,7 +282,7 @@ bar2 = bar.Bar(widget_list, size=20, margin=[0, 0, 3, 0], opacity=1)
 #     screens.append(Screen(top=bar.Bar(widget_list, size=20, margin=[0, 0, 0, 0], opacity=1)))
 
 if num_screens == 2:
-    screens = [Screen(), Screen(top=bar1)]
+    screens = [Screen(), Screen(top=bar2)]
 else:
     screens = [Screen(top=bar1)]
 
