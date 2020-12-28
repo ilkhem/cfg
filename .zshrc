@@ -1,0 +1,1 @@
+/home/ilyes/.dotfiles/zsh/zshrc.symlink
