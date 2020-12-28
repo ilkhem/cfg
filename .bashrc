@@ -1,0 +1,1 @@
+/home/ilyes/.dotfiles/bash/bashrc.symlink
