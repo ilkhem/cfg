@@ -7,17 +7,48 @@ from libqtile.utils import guess_terminal
 import os, subprocess, platform
 
 mod = "mod4"
-terminal = "st"
-run_command = 'rofi -show drun -config ~/.config/rofi/themes/center.rasi -display-drun "Run: " -drun-display-format "{name}"'
+# terminal = "st"
+terminal = "alacritty"
+run_command = 'rofi -show drun -show-icons -config ~/.config/rofi/themes/center.rasi -display-drun "run:" -drun-display-format "{name}"'
+switch_window_command = 'rofi -show window -show-icons -config ~/.config/rofi/themes/center.rasi'
 find_command = 'rofi -show find -modi find:~/.local/share/rofi/finder.sh -config ~/.config/rofi/themes/center.rasi -display-drun "Find: " -drun-display-format "{name}"'
+# two_screen_mode = "xrandr --output eDP-1-1 --primary --output HDMI-0 --auto --right-of eDP-1-1; nitrogen --head=1 --set-zoom-fill --random"
+# sleep 1 &
+# nitrogen --head=0 -- --set-zoom-fill --random &
+# nitrogen --head=1 -- --set-zoom-fill --random &
+# """
+# one_screen_mode = "xrandr --output eDP-1-1 --primary --output HDMI-0 --off"
+# sleep 1 &
+# nitrogen --head=0 -- --set-zoom-fill --random &
+# """
 # run_command = "dmenu_run -p 'Run: '"
 
+home = os.path.expanduser("~")
 
 ######## AUTOSTART ########
 @hook.subscribe.startup_once
 def autostart():
-    home = os.path.expanduser("~")
     subprocess.Popen([home + "/.config/qtile/autostart.sh"])
+
+def app_or_group(group, app):
+    """ Go to specified group if it exists. Otherwise, run the specified app.
+    When used in conjunction with dgroups to auto-assign apps to specific
+    groups, this can be used as a way to go to an app if it is already
+    running. """
+    def f(qtile):
+        try:
+            qtile.groupMap[group].cmd_toscreen()
+        except KeyError:
+            qtile.cmd_spawn(app)
+    return f
+
+
+
+# @hook.subscribe.startup
+# def onrestart():
+#     home = os.path.expanduser("~")
+#     subprocess.Popen([home + "/.config/qtile/onrestart.sh"])
+
 
 
 ####### KEYS #######
@@ -34,6 +65,8 @@ keys = [
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "shift"], "r", lazy.restart(), desc="Restart qtile"),
     Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown qtile"),
+    # Key([mod], "p", lazy.spawn(home + "/.config/qtile/twoscreen.sh")),
+    # Key([mod, "shift"], "p", lazy.spawn(home + "/.config/qtile/onescreen.sh")),
     ####### WINDOWS
     Key([mod], "j", lazy.layout.down(), desc="Move focus down in stack pane"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up in stack pane"),
@@ -52,9 +85,11 @@ keys = [
         desc="Switch which side main pane occupies (XmonadTall)",
     ),
     Key([mod], "Tab",
+        # lazy.spawn(switch_window_command),
         lazy.layout.next(),
         desc="Switch window focus to other pane(s) of stack",
     ),
+    Key(["mod1"], "Tab", lazy.spawn(switch_window_command), desc="Window swither"),
     Key([mod, "control"], "Return",
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
@@ -114,10 +149,11 @@ colors = [
 
 ####### GROUPS #######
 group_names = [
-    ("www", {"layout": "monadtall", "spawn": "firefox"}),
+    ("www", {"layout": "monadtall"}),
     ("dev", {"layout": "monadtall"}),
     ("music", {"layout": "monadtall", "spawn": "spotify"}),
-    ("mail", {"layout": "monadtall", "spawn": "thunderbird"}),
+    ("mail", {"layout": "monadtall"}),
+    ("ssh", {"layout": "monadtal", "spawn": terminal}),
     ("game", {"layout": "floating"}),
     ("x", {"layout": "monadtall"}),
     ("y", {"layout": "monadtall"}),
@@ -142,7 +178,7 @@ layouts = [
     # layout.Bsp(),
     # layout.Columns(),
     # layout.Matrix(),
-    layout.MonadTall(margin=8, border_width=2, border_focus=colors[8][0]),
+    layout.MonadTall(margin=8, border_width=3, border_focus=colors[8][0]),
     # layout.MonadWide(),
     # layout.RatioTile(),
     # layout.Tile(),
@@ -191,7 +227,9 @@ widget_list = [
         background=colors[0],
     ),
     sep1, #####################################################################
-    widget.TextBox("{}".format(platform.release()), background=colors[0], foreground=colors[1]),
+    widget.TextBox("{}".format(platform.release()), background=colors[0], foreground=colors[1],
+        mouse_callbacks={"Button1": lambda qtile: qtile.cmd_spawn("sudo manjaro-settings-manager")}
+    ),
     sep2, #####################################################################
     widget.TextBox(
         text=" ⟳",
@@ -203,7 +241,8 @@ widget_list = [
     widget.CheckUpdates(
         update_interval=1800,
         mouse_callbacks={
-            "Button1": lambda qtile: qtile.cmd_spawn(terminal + " -e sudo pacman -Syu")
+            "Button1": lambda qtile: qtile.cmd_spawn(terminal + " -e sudo pacman -Syu"),
+            "Button3": lambda qtile: qtile.cmd_spawn("sudo pamac-manager")
         },
         foreground=colors[3],
         background=colors[0],
@@ -212,7 +251,8 @@ widget_list = [
         text="Updates",
         padding=5,
         mouse_callbacks={
-            "Button1": lambda qtile: qtile.cmd_spawn(terminal + " -e sudo pacman -Syu")
+            "Button1": lambda qtile: qtile.cmd_spawn(terminal + " -e sudo pacman -Syu"),
+            "Button3": lambda qtile: qtile.cmd_spawn("sudo pamac-manager")
         },
         foreground=colors[3],
         background=colors[0],
@@ -256,6 +296,7 @@ widget_list = [
 @hook.subscribe.screen_change
 def restart_on_randr(qtile, ev):
 	qtile.cmd_restart()
+        # lazy.restart()
 
 from Xlib import X, display
 from Xlib.ext import randr
@@ -275,7 +316,7 @@ for output in res['outputs']:
 print("%d screens found!" % (num_screens))
 
 bar1 = bar.Bar(widget_list, size=20, margin=[0, 0, 3, 0], opacity=1)
-bar2 = bar.Bar(widget_list, size=20, margin=[0, 0, 3, 0], opacity=1)
+bar2 = bar.Bar(widget_list.copy(), size=20, margin=[0, 0, 3, 0], opacity=1)
 
 # screens = []
 # for _ in range(num_screens):
