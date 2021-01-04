@@ -1,0 +1,39 @@
+# Don't print a new line at the start of the prompt
+add_newline = false
+# Use custom format
+format = """
+$python\
+ $directory\
+$git_branch\
+$cmd_duration\
+$character"""
+
+
+# Make prompt a single line instead of two lines
+[line_break]
+disabled = true
+
+# Replace the "❯" symbol in the prompt with "➜"
+# [character]                         # The name of the module we are configuring is "character"
+# success_symbol = "[➜](bold green)"  # The "success_symbol" is set to "➜" with color "bold green"
+
+
+# Disable the package module, hiding it from the prompt completely
+[directory]
+disabled = false
+truncation_length = 1
+
+[git_branch]
+disabled = false
+format = '\([$symbol$branch]($style)\) '
+
+[python]
+format = '[(\($symbol$version\))]($style) '
+symbol = "🐍:"
+pyenv_version_name = true
+disabled = false
+
+[hostname]
+ssh_only = true
+format = "[$hostname](bold dimmed green)"
+diabled = false
