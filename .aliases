@@ -1,1 +1,84 @@
-/home/ilyes/.dotfiles/shell/aliases.symlink
+# navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
+
+# alias to use for bare git home folder
+alias config='/usr/bin/git --git-dir=/home/ilyes/.cfg/ --work-tree=/home/ilyes'
+
+# vim and emacs
+alias vim='nvim'
+alias nvim='nvim --listen /tmp/mynvimserver'
+alias em='/usr/bin/emacs -nw'
+alias emacs="emacsclient -c -a 'emacs'"
+alias doomsync="~/.emacs.d/bin/doom sync"
+alias doomdoctor="~/.emacs.d/bin/doom doctor"
+alias doomupgrade="~/.emacs.d/bin/doom upgrade"
+alias doompurge="~/.emacs.d/bin/doom purge"
+
+# Overwrite existing commands for better defaults
+alias cp="cp -i"
+alias mv='mv -i'
+alias rm='rm -i'
+alias mkdir="mkdir -p"     # -p make parent dirs as needed
+alias df='df -h'                          # human-readable sizes
+alias free='free -m'                      # show sizes in MB
+
+# Colorize grep output (good for log files)
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+## get top process eating memory
+alias psmem='ps auxf | sort -nr -k 4'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
+
+## get top process eating cpu ##
+alias pscpu='ps auxf | sort -nr -k 3'
+alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
+
+# switch between shells
+alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
+alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
+alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
+
+# anaconda & python
+alias ca='conda activate'
+alias cda='conda deactivate'
+alias jn='jupyter notebook'
+alias jl='jupyter lab'
+
+alias awaydate='cd /nfs/gcommon/tealist/ && ./awaydate && cd'
+
+alias vimrc="vim ~/.vimrc"
+alias zshrc="vim ~/.zshrc"
+alias fishrc="vim ~/.config/fish/config.fish"
+
+# alias ls='ls -GFh'
+alias ll='ls -lhGF'
+alias l='ls -lahGF'
+
+alias gpg="gpg2"
+# alias st="$HOME/Apps/sublime_text_3/sublime_text"
+
+alias t="todo.sh"
+
+alias u238c="ssh ilyesk@ssh.swc.ucl.ac.uk -t ssh u238c"
+alias gpu350="ssh ilyesk@ssh.swc.ucl.ac.uk -t ssh gpu-350-05"
+
+# Save you from mistyping
+alias sl=ls
+
+# fix tlmgr in arch
+alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
+
+
+
+# pacman and yay
+# alias pacsyu='sudo pacman -Syyu'                 # update only standard pkgs
+# alias yaysua='yay -Sua --noconfirm'              # update only AUR pkgs
+# alias yaysyu='yay -Syu --noconfirm'              # update standard pkgs and AUR pkgs
+# alias unlock='sudo rm /var/lib/pacman/db.lck'    # remove pacman lock
+# alias cleanup='sudo pacman -Rns (pacman -Qtdq)'  # remove orphaned packages
