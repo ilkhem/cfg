@@ -1,7 +1,7 @@
 from typing import List  # noqa: F401
 
 from libqtile import bar, layout, widget, hook
-from libqtile.config import Click, Drag, Group, Key, Screen, Match
+from libqtile.config import Click, Drag, Group, Key, Screen, Match, ScratchPad, DropDown
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 import os, subprocess, platform
@@ -150,11 +150,11 @@ colors = [
 ####### GROUPS #######
 group_names = [
     ("www", {"layout": "monadtall"}),
-    ("dev", {"layout": "monadtall"}),
-    ("music", {"layout": "monadtall", "spawn": "spotify"}),
-    ("mail", {"layout": "monadtall"}),
-    ("ssh", {"layout": "monadtal", "spawn": terminal}),
-    ("game", {"layout": "floating"}),
+    ("dev", {"layout": "monadtall", "spawn": terminal}),
+    ("text", {"layout": "monadtall"}),
+    ("mail", {"layout": "monadtall", "spawn": "thunderbird"}),
+    ("ssh", {"layout": "monadtal"}),
+    ("game", {"layout": "monadtall"}),
     ("x", {"layout": "monadtall"}),
     ("y", {"layout": "monadtall"}),
     ("z", {"layout": "monadtall"}),
@@ -168,6 +168,10 @@ for i, (name, kwargs) in enumerate(group_names, 1):
     keys.append(
         Key([mod, "shift"], str(i), lazy.window.togroup(name))
     )  # Send current window to another group
+
+# add scratchpad for spotify
+groups += [ScratchPad("spd", dropdowns=[DropDown("music", "spotify", opacity=1, on_focus_lost_hide=True)])]
+keys += [Key([mod], "s", lazy.group['spd'].dropdown_toggle('music'))]
 
 
 ####### LAYOUTS #######
@@ -185,7 +189,7 @@ layouts = [
     # layout.TreeTab(),
     # layout.VerticalTile(),
     # layout.Zoomy(),
-    layout.Floating(),
+    # layout.Floating(),
 ]
 
 ####### WIDGETS #######
