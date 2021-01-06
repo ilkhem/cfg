@@ -23,14 +23,14 @@ cpu() {
   read cpu a b c idle rest < /proc/stat
   total=$((a+b+c+idle))
   cpu=$((100*( (total-prevtotal) - (idle-previdle) ) / (total-prevtotal) ))
-  echo -e "CPU: $cpu%"
+  echo -e "$cpu%"
 }
 
 
 ## VOLUME
 vol() {
     vol=`amixer get Master | awk -F'[][]' 'END{ print $4":"$2 }' | sed 's/on://g'`
-    echo -e "VOL: $vol"
+    echo -e "$vol"
 }
 
 
@@ -84,7 +84,7 @@ net() {
                         wired_name=`nmcli con | grep 'ethernet' | awk '{print $1}'`
                         net="${wired_name} & ${wireless_name} at ${quality}%"
                 else
-                        net="${wireless_name} at ${quality}%"
+                        net="${wireless_name} (${quality}%)"
                 fi
         else
                 if [ "$wired_state" = "connected" ]
@@ -121,8 +121,15 @@ spot() {
 }
 
 
+## KEYBOARD
+kbd() {
+        CURR_LAYOUT=`setxkbmap -query | grep layout | awk '{printf ("%s", $2)}'`
+        echo -e "$CURR_LAYOUT"
+}
 
-SLEEP_SEC=2
+
+
+SLEEP_SEC=1
 #loops forever outputting a line every SLEEP_SEC secs
 
 # It seems that we are limited to how many characters can be displayed via
@@ -130,6 +137,6 @@ SLEEP_SEC=2
 # So I would love to add more functions to this script but it makes the
 # echo output too long to display correctly.
 while :; do
-        echo "+@fg=3; $(spot) +@fg=9; | +@fg=0; +@fn=1;💻+@fn=0; $(cpu) +@fg=9; | +@fg=2; +@fn=1;💾+@fn=0; $(mem) +@fg=9; | +@fg=7; +@fn=1;🌎+@fn=0; $(net) +@fg=9; | +@fg=8; +@fn=1;🔋+@fn=0; $(bat) +@fg=9; | +@fg=4; +@fn=1;🔈+@fn=0; $(vol) +@fg=9; |"
+        echo "+@fg=3;$(spot)+@fg=9; | +@fg=0;+@fn=1;💻+@fn=0; $(cpu)+@fg=9; | +@fg=2;+@fn=1;💾+@fn=0; $(mem)+@fg=9; | +@fg=7;+@fn=1;🌎+@fn=0; $(net)+@fg=9; | +@fg=8;+@fn=1;🔋+@fn=0;$(bat)+@fg=9; | +@fg=4;+@fn=1;🔈+@fn=0;$(vol)+@fg=9; | +@fg=6;$(kbd)+@fg=9; |"
 	sleep $SLEEP_SEC
 done
