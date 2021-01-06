@@ -110,7 +110,7 @@ source ~/.aliases
 # fi
 
 # disable opencv warnings in howdy
-set OPENCV_LOG_LEVEL ERROR
+set -x OPENCV_LOG_LEVEL ERROR
 
 ### RANDOM COLOR SCRIPT ###
 colorscript random
