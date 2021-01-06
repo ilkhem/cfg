@@ -6,3 +6,4 @@ dunst &
 nm-applet &
 xmodmap ~/.Xmodmap &
 /usr/bin/emacs --daemon &
+powerkit &
