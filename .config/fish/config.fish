@@ -125,4 +125,4 @@ starship init fish | source
 set -x PYENV_ROOT $HOME/.pyenv
 set -x PATH $PYENV_ROOT/bin $PATH
 # pyenv init - | source
-# pyenv virtualenv-init - | source
+pyenv virtualenv-init - | source

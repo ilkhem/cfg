@@ -14,9 +14,12 @@ $character"""
 disabled = true
 
 # Replace the "❯" symbol in the prompt with "➜"
-# [character]                         # The name of the module we are configuring is "character"
-# success_symbol = "[➜](bold green)"  # The "success_symbol" is set to "➜" with color "bold green"
-
+[character]                         # The name of the module we are configuring is "character"
+# success_symbol = "[≫](bold green)"
+# error_symbol = "[∇](bold red)"
+# error_symbol = "[≫](bold red)"
+# vicmd_symbol = "[≪](bold green)"
+# vicmd_symbol = "[Δ](bold green)"
 
 # Disable the package module, hiding it from the prompt completely
 [directory]
@@ -28,7 +31,8 @@ disabled = false
 format = '\([$symbol$branch]($style)\) '
 
 [python]
-format = '[(\($symbol$version\))]($style) '
+# format = '[(\($symbol$version\))]($style) '
+format = '[(\($symbol$virtualenv\))]($style) '
 symbol = "🐍:"
 pyenv_version_name = true
 disabled = false
