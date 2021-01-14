@@ -43,15 +43,14 @@ function _M.get()
             end
         end,
         {description = "toggle wibox", group = "awesome"}),
-    -- awful.key({ modkey, "Shift" }, "b", function ()
-    --         for s in screen do
-    --                 for _, c in pairs(s.all_clients) do
-    --                     if c == nil then return end
-    --                     awful.titlebar:toggle(c)
-    --                 end
-    --         end
-    --     end,
-    --     {description = "toggle titlebar", group = "awesome"}),
+    awful.key({ modkey, "Shift" }, "b", function ()
+            for s in screen do
+                    for c in s.all_clients do
+                        awful.titlebar:toggle(c)
+                    end
+            end
+        end,
+        {description = "toggle titlebar", group = "awesome"}),
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- Tag browsing
@@ -101,7 +100,7 @@ function _M.get()
           end,
           {description = "restore minimized", group = "client"}),
 
-    --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- Standard programs
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "applications"}),

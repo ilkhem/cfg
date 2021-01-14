@@ -27,6 +27,13 @@ function _M.get()
               {description = "move to screen", group = "client"}),
     awful.key({ modkey, "Control" }, "r",      function (c) c.ontop = not c.ontop            end,
               {description = "toggle keep on top", group = "client"}),
+
+    awful.key({ modkey, "Shift" }, "s",
+            function(c)
+                       c.sticky = not c.sticky
+                       c:raise()
+            end,
+            {description = "test", group = "client"}),
     awful.key({ modkey,           }, "n",
       function (c)
         -- The client currently has the input focus, so it cannot be
