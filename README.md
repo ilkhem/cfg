@@ -17,4 +17,4 @@ Then, some additionall software that I use
 
 ```pacman -S lxappearance lxrandr vlc timeshift qbittorrent etcher steam discord```
 
-```yay -S stacer spotify signal slack zoom zotero lastpass-cli nordvpn-cli pycharm-professional
+```yay -S stacer spotify signal slack zoom zotero lastpass-cli nordvpn-cli pycharm-professional```
