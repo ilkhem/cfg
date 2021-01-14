@@ -1,0 +1,15 @@
+#!/bin/bash
+CURR_LAYOUT=`setxkbmap -query | grep layout | awk '{printf ("%s", $2)}'`
+
+if [ "$CURR_LAYOUT" = "us" ]
+then
+        NEXT_LAYOUT="gb"
+elif [ "$CURR_LAYOUT" = "gb" ]
+then
+        NEXT_LAYOUT="us"
+fi
+echo -e "setting keyboard layout to $NEXT_LAYOUT"
+
+setxkbmap $NEXT_LAYOUT -option ctrl:nocaps,shift:both_capslock
+xcape -e 'Control_L=Escape'
+

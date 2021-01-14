@@ -1,0 +1,11 @@
+#!/bin/sh
+STATUS=`qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get org.mpris.MediaPlayer2.Player PlaybackStatus`
+if [ "$STATUS" = "Playing" ]
+then
+        ARTIST=`qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Metadata | grep xesam:artist | awk -F: '{print $3}'`
+        TRACK=`qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Metadata | grep xesam:title | awk -F: '{print $3}'`
+        SPOTIFY_NAME="${ARTIST} -${TRACK}"
+else
+        SPOTIFY_NAME=""
+fi
+echo -e "$SPOTIFY_NAME"

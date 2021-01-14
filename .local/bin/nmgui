@@ -1,0 +1,5 @@
+#!/bin/sh
+nm-applet    2>&1 > /dev/null &
+# stalonetray  2>&1 > /dev/null
+trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 1 --transparent true --alpha 0 --height 18 --tint 0x292d3e 2>&1 > /dev/null
+killall nm-applet
