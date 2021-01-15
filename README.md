@@ -30,6 +30,11 @@ yay -S powerkit optimus-manager libinput-gestures starship todotxt xlayoutdispla
 
 5- Then, some additionall software that I use
 ```
-pacman -S lxappearance lxrandr vlc timeshift qbittorrent etcher steam discord
-yay -S stacer spotify signal slack zoom zotero lastpass-cli nordvpn-cli pycharm-professional
+pacman -S lxappearance lxrandr vlc qbittorrent discord signal-desktop
+yay -S stacer spotify slack-desktop zoom zotero lastpass-cli pycharm-professional timeshift etcher 
+```
+and fonts and curosr theme
+```
+pacman -S ttf-joypixels
+yay -S nerd-fonts-complete ttf-ms-fonts xcursor-breeze
 ```
