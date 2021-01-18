@@ -194,7 +194,7 @@ function _M.get()
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- Rofi
     awful.key({ modkey, "Shift" }, "Return",
-        function() awful.spawn.with_shell("rofi -show run -show-icons -config ~/.config/rofi/themes/center.rasi") end,
+        function() awful.spawn.with_shell("rofi -show run -show-icons -config ~/.config/rofi/themes/dmenu.rasi") end,
               {description = "rofi launcher", group = "launcher"}),
     awful.key({ modkey }, "space",
         function() awful.spawn.with_shell("rofi -show drun -show-icons -config ~/.config/rofi/themes/center.rasi") end,
