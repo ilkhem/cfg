@@ -70,8 +70,8 @@ nnoremap <Down> :echoe "Use j"<CR>
 autocmd BufWritePre * %s/\s\+$//e
 
 " configure neovim to use pyenv
-let g:python3_host_prog = expand('$HOME/.pyenv/versions/3.8.0/envs/neovim3/bin/python')
-let g:python_host_prog = expand('$HOME/.pyenv/versions/2.7.14/envs/neovim2/bin/python')
+let g:python3_host_prog = expand('$HOME/.pyenv/versions/3.8.7/envs/neovim3/bin/python')
+let g:python_host_prog = expand('$HOME/.pyenv/versions/2.7.18/envs/neovim2/bin/python')
 
 
 
@@ -109,47 +109,51 @@ let g:vimtex_complete_close_braces = 1
 
 let g:matchup_override_vimtex = 1
 
+
+let g:vimtex_quickfix_autoclose_after_keystrokes = 2
+
 " nvr to work with latex callbacks for nvim
 let g:vimtex_compiler_progname = 'nvr'
 
 " configure viewer depending on OS (only for linux and macOS)
-let s:uname = system("echo -n \"$(uname)\"")
-if !v:shell_error && s:uname == "Linux"
-        " setup okular
-        let g:vimtex_view_general_viewer = 'okular'
-        let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-        let g:vimtex_view_general_options_latexmk = '--unique'
-else
-        " assume it is macOS
-        " source is https://github.com/jdhao/nvim-config/blob/master/plugins.vim
-        " let g:vimtex_view_method = "skim"
-        let g:vimtex_view_general_viewer
-                \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
-        let g:vimtex_view_general_options = '-r @line @pdf @tex'
+" let s:uname = system("echo -n \"$(uname)\"")
+" if !v:shell_error && s:uname == "Linux"
+" setup on linux using okular or mupdf, or default to xdg-open
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_view_general_viewer = 'zathura'
+" let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+" let g:vimtex_view_general_options_latexmk = '--unique'
+" else
+"         " assume it is macOS
+"         " source is https://github.com/jdhao/nvim-config/blob/master/plugins.vim
+"         " let g:vimtex_view_method = 'skim'
+"         let g:vimtex_view_general_viewer
+"                 \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+"         let g:vimtex_view_general_options = '-r @line @pdf @tex'
 
-        " This adds a callback hook that updates Skim after compilation
-        let g:vimtex_compiler_callback_hooks = ['UpdateSkim']
+"         " This adds a callback hook that updates Skim after compilation
+"         let g:vimtex_compiler_callback_hooks = ['UpdateSkim']
 
-        function! UpdateSkim(status)
-            if !a:status | return | endif
+"         function! UpdateSkim(status)
+"             if !a:status | return | endif
 
-            let l:out = b:vimtex.out()
-            let l:tex = expand('%:p')
-            let l:cmd = [g:vimtex_view_general_viewer, '-r']
+"             let l:out = b:vimtex.out()
+"             let l:tex = expand('%:p')
+"             let l:cmd = [g:vimtex_view_general_viewer, '-r']
 
-            if !empty(system('pgrep Skim'))
-                call extend(l:cmd, ['-g'])
-            endif
+"             if !empty(system('pgrep Skim'))
+"                 call extend(l:cmd, ['-g'])
+"             endif
 
-            if has('nvim')
-                call jobstart(l:cmd + [line('.'), l:out, l:tex])
-            elseif has('job')
-                call job_start(l:cmd + [line('.'), l:out, l:tex])
-            else
-                call system(join(l:cmd + [line('.'), shellescape(l:out), shellescape(l:tex)], ' '))
-            endif
-        endfunction
-endif
+"             if has('nvim')
+"                 call jobstart(l:cmd + [line('.'), l:out, l:tex])
+"             elseif has('job')
+"                 call job_start(l:cmd + [line('.'), l:out, l:tex])
+"             else
+"                 call system(join(l:cmd + [line('.'), shellescape(l:out), shellescape(l:tex)], ' '))
+"             endif
+"         endfunction
+" endif
 
 " TOC settings
 " let g:vimtex_toc_config = {
