@@ -155,6 +155,18 @@ awful.screen.connect_for_each_screen(function(s)
   end)
 
 
+  -- prints battery status
+  s.mybatterystatus = awful.widget.watch("bat-status", 15, function(widget, stdout)
+        widget:set_markup(markup.fontfg(theme.font, theme.fg_normal, stdout))
+  end)
+
+
+  -- print number of pcaman updates
+  s.mypacupdates = awful.widget.watch("pacupdate", 360, function(widget, stdout)
+        widget:set_markup(markup.fontfg(theme.font, '#24beae', " " .. stdout))
+  end)
+
+
   -- Create a promptbox for each screen
   s.mypromptbox = awful.widget.prompt()
 
@@ -219,10 +231,13 @@ awful.screen.connect_for_each_screen(function(s)
           -- temp.widget,
           s.mysep,
           baticon,
-          bat.widget,
+          -- bat.widget,
+          s.mybatterystatus,
+          -- s.mysep,
+          -- volicon,
+          -- theme.volume.widget,
           s.mysep,
-          volicon,
-          theme.volume.widget,
+          s.mypacupdates,
           s.mysep,
           clockicon,
           mytextclock,

@@ -117,12 +117,12 @@ function _M.get()
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- Custom scripts
-    awful.key({ modkey, "Control" }, "p", function() awful.spawn("/home/ilyes/.config/spectrwm/init1scr.sh") end,
-        {description = "swap to 1 screen", group = "custom scripts"}),
-    awful.key({ modkey, "Shift" }, "p", function() awful.spawn("/home/ilyes/.config/spectrwm/init2scr.sh") end,
-        {description = "swap to 2 screens", group = "custom scripts"}),
-    awful.key({ modkey, "Control" }, "k", function() awful.spawn("nextkbd") end,
-        {description = "change keyboard layout", group = "custom scripts"}),
+    awful.key({ modkey, "Control" }, "p", function() awful.spawn.with_shell("/home/ilyes/.local/bin/change-screen-config") end,
+        {description = "toggle monitor profile", group = "custom scripts"}),
+    -- awful.key({ modkey, "Shift" }, "p", function() awful.spawn.with_shell("/home/ilyes/.config/spectrwm/init2scr.sh") end,
+    --     {description = "swap to 2 screens", group = "custom scripts"}),
+    awful.key({ modkey, "Control" }, "k", function() awful.spawn.with_shell("/home/ilyes/.local/bin/nextkbd") end,
+        {description = "toggle keyboard layout", group = "custom scripts"}),
 
 
 
@@ -194,51 +194,54 @@ function _M.get()
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- Rofi
     awful.key({ modkey, "Shift" }, "Return",
-        function() awful.spawn("rofi -show drun -show-icons -config ~/.config/rofi/themes/center.rasi") end,
+        function() awful.spawn.with_shell("rofi -show run -show-icons -config ~/.config/rofi/themes/center.rasi") end,
               {description = "rofi launcher", group = "launcher"}),
     awful.key({ modkey }, "space",
-        function() awful.spawn("rofi -show drun -show-icons -config ~/.config/rofi/themes/center.rasi") end,
+        function() awful.spawn.with_shell("rofi -show drun -show-icons -config ~/.config/rofi/themes/center.rasi") end,
               {description = "rofi launcher", group = "launcher"}),
     -- awful.key({ modkey }, "f",
     --     function() awful.spawn('rofi -show find -modi find:~/.local/share/rofi/finder.sh -config ~/.config/rofi/themes/center.rasi -display-drun "Find: " -drun-display-format "{name}"') end,
     --           {description = "rofi file finder", group = "launcher"}),
     awful.key({ modkey, "Mod1" }, "space",
-        function() awful.spawn('rofi -show find -modi find:~/.local/share/rofi/finder.sh -config ~/.config/rofi/themes/center.rasi -display-drun "Find: " -drun-display-format "{name}"') end,
+        -- function() awful.spawn.with_shell('rofi -show find -modi find:~/.local/share/rofi/finder.sh -config ~/.config/rofi/themes/center.rasi -display-drun "Find: " -drun-display-format "{name}"') end,
+        -- In the following, `find $HOME /media` could be replaced by
+        -- `locate $HOME media` if one wishes to use locate instead of find
+        function() awful.spawn.with_shell('find $HOME /media | rofi -threads 0 -dmenu -config ~/.config/rofi/themes/center.rasi -i -p "Find: " | xargs -r -0 xdg-open') end,
               {description = "rofi file finder", group = "launcher"}),
     awful.key({ "Mod1" }, "Tab",
-        function() awful.spawn("rofi -show window -show-icons -config ~/.config/rofi/themes/center.rasi") end,
+        function() awful.spawn.with_shell("rofi -show window -show-icons -config ~/.config/rofi/themes/center.rasi") end,
               {description = "rofi window switcher", group = "launcher"}),
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- fn keys
 
     -- Brightness
-    awful.key({ }, "XF86MonBrightnessUp", function () awful.spawn("xbacklight -inc 10") end,
+    awful.key({ }, "XF86MonBrightnessUp", function () awful.spawn.with_shell("xbacklight -inc 10") end,
               {description = "Brightness up", group = "fn keys"}),
-    awful.key({ }, "XF86MonBrightnessDown", function () awful.spawn("xbacklight -dec 10") end,
+    awful.key({ }, "XF86MonBrightnessDown", function () awful.spawn.with_shell("xbacklight -dec 10") end,
               {description = "Brightness down", group = "fn keys"}),
     -- Volume
     awful.key({ }, "XF86AudioRaiseVolume",
-            function () awful.spawn("amixer -c 0 sset Master 5%+ unmute") end,
+            function () awful.spawn.with_shell("amixer -c 0 sset Master 5%+ unmute") end,
             {description = "volume up", group = "fn keys"}),
     awful.key({ }, "XF86AudioLowerVolume",
-            function () awful.spawn("amixer -c 0 sset Master 5%- unmute ") end,
+            function () awful.spawn.with_shell("amixer -c 0 sset Master 5%- unmute ") end,
             {description = "volume down", group = "fn keys"}),
     awful.key({ }, "XF86AudioMute",
-            function () awful.spawn("amixer -q set Master toggle") end,
+            function () awful.spawn.with_shell("amixer -q -D pulse sset Master toggle") end,
             {description = "mute/unmute", group = "fn keys"}),
     -- Media
     awful.key({ }, "XF86AudioNext",
     -- function() awful.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next ") end,
-            function() awful.spawn("playerctl next") end,
+            function() awful.spawn.with_shell("playerctl next") end,
             {description = "Next song", group = "fn keys"}),
     awful.key({ }, "XF86AudioPrev",
             -- function() awful.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous") end,
-            function() awful.spawn("playerctl previous") end,
+            function() awful.spawn.with_shell("playerctl previous") end,
             {description = "Previous song", group = "fn keys"}),
     awful.key({ }, "XF86AudioPlay",
             -- function() awful.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause") end,
-            function() awful.spawn("playerctl play-pause") end,
+            function() awful.spawn.with_shell("playerctl play-pause") end,
             {description = "Play/pause", group = "fn keys"})
   )
 

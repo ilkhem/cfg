@@ -23,10 +23,8 @@ local editor_cmd = terminal .. " -e " .. editor
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 M.awesome = {
-  { "hotkeys", function()
-      hotkeys_popup.show_help(nil, awful.screen.focused())
-    end },
-  { "manual", terminal .. " -e man awesome" },
+  { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
+  -- { "manual", terminal .. " -e man awesome" },
   { "edit config", editor_cmd .. " " .. awesome.conffile },
   { "Terminal", terminal },
   -- { "Shutdown/Logout", "oblogout" },
@@ -35,7 +33,6 @@ M.awesome = {
 }
 
 M.favorite = {
-  -- { "caja", "caja" },
   { "thunar", "thunar" },
   { "geany", "geany" },
   { "spotify", "spotify" },
@@ -45,7 +42,7 @@ M.favorite = {
   { "thunderbird", "thunderbird" },
   { "libreoffice", "libreoffice" },
   -- { "transmission", "transmission-gtk" },
-  { "gimp", "gimp" },
+  -- { "gimp", "gimp" },
   -- { "inkscape", "inkscape" },
   -- { "screenshooter", "xfce4-screenshooter" }
 }
