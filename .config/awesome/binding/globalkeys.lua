@@ -212,6 +212,20 @@ function _M.get()
         function() awful.spawn.with_shell("rofi -show window -show-icons -config ~/.config/rofi/themes/center.rasi") end,
               {description = "rofi window switcher", group = "launcher"}),
 
+
+
+
+    --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+    -- custom rofi (dmenu) scripts
+    awful.key({ "Mod1", "Control" }, "space",
+        function() awful.spawn.with_shell("dmenu-emoji") end,
+              {description = "a dmenu for emojis", group = "custom scripts"}),
+    awful.key({ "Mod1", "Control" }, "e",
+        function() awful.spawn.with_shell("dmenu-edit-config") end,
+              {description = "a dmenu for editing configs", group = "custom scripts"}),
+
+
+
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- fn keys
 
