@@ -1,0 +1,79 @@
+#!/bin/bash
+
+# Dmenu script for editing some of my more frequently edited config files.
+
+
+declare -a options=("alacritty"
+"awesome"
+"neovim"
+"fish"
+"starship"
+"zsh"
+"bash"
+"qtile"
+"spectrwm"
+"picom"
+"vim"
+"xresources"
+"dunst"
+"quit"
+)
+
+# The combination of echo and printf is done to add line breaks to the end of each
+# item in the array before it is piped into dmenu.  Otherwise, all the items are listed
+# as one long line (one item).
+
+choice=$(echo "$(printf '%s\n' "${options[@]}")" | rofi -thread 0 -dmenu -config ~/.config/rofi/themes/dmenu.rasi -i -p 'Edit config file: ')
+case "$choice" in
+	quit)
+		echo "Program terminated." && exit 1
+	;;
+	alacritty)
+		choice="$HOME/.config/alacritty/alacritty.yml"
+	;;
+	awesome)
+		choice="$HOME/.config/awesome/rc.lua"
+	;;
+    fish)
+        choice="$HOME/.config/fish/config.fish"
+    ;;
+    starship)
+        choice="$HOME/.config/starship.toml"
+    ;;
+	bash)
+		choice="$HOME/.bashrc"
+	;;
+	dunst)
+		choice="$HOME/.config/dunst/dunstrc"
+	;;
+	neovim)
+		choice="$HOME/.config/nvim/init.vim"
+	;;
+	picom)
+		choice="$HOME/.config/picom/picom.conf"
+	;;
+	qtile)
+		choice="$HOME/.config/qtile/config.py"
+	;;
+	spectrwm)
+		choice="$HOME/.config/spectrwm/spectrwm.conf"
+	;;
+	vim)
+		choice="$HOME/.vimrc"
+	;;
+	xresources)
+		choice="$HOME/.Xresources"
+	;;
+	zsh)
+		choice="$HOME/.zshrc"
+	;;
+	*)
+		exit 1
+	;;
+esac
+
+# Ultimately, what do want to do with our choice?  Open in our editor!
+alacritty -e nvim "$choice"
+# emacsclient -c -a emacs "$choice"
+
+

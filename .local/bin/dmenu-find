@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# dmenu script to search for files
+
+chosen=$(find $HOME /media | rofi -threads 0 -dmenu -config ~/.config/rofi/themes/center.rasi -i -p "Find: ")
+
+xdg-open $chosen
+
