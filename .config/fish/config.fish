@@ -5,7 +5,8 @@ set -x PATH $HOME/.local/bin $HOME/Applications $PATH
 set fish_greeting                      # Supresses fish's intro message
 # set TERM "xterm-256color"              # Sets the terminal type
 set EDITOR "nvim"      # $EDITOR use Emacs in terminal
-set VISUAL "emacsclient -c -a emacs"   # $VISUAL use Emacs in GUI mode
+# set VISUAL "emacsclient -c -a emacs"   # $VISUAL use Emacs in GUI mode
+set VISUAL "alacritty -e nvim"   # $VISUAL use Emacs in GUI mode
 
 ### SET EITHER DEFAULT EMACS MODE OR VI MODE ###
 function fish_user_key_bindings
@@ -66,7 +67,7 @@ set -U fish_color_operator 00a6b2
 set -U fish_color_escape 00a6b2
 set -U fish_color_cwd 008000
 set -U fish_color_cwd_root 800000
-set -U fish_color_valid_path normal
+set -U fish_color_valid_path normal --underline
 set -U fish_color_autosuggestion 6c6c6c
 set -U fish_color_user 00ff00
 set -U fish_color_host normal
