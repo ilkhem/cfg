@@ -23,55 +23,72 @@ declare -a options=("alacritty"
 # item in the array before it is piped into dmenu.  Otherwise, all the items are listed
 # as one long line (one item).
 
+folder=""
+
 choice=$(echo "$(printf '%s\n' "${options[@]}")" | rofi -thread 0 -dmenu -config ~/.config/rofi/themes/dmenu.rasi -i -p 'Edit config file: ')
 case "$choice" in
 	quit)
 		echo "Program terminated." && exit 1
 	;;
 	alacritty)
-		choice="$HOME/.config/alacritty/alacritty.yml"
+		folder="$HOME/.config/alacritty"
+		choice="alacritty.yml"
 	;;
 	awesome)
-		choice="$HOME/.config/awesome/rc.lua"
+		folder="$HOME/.config/awesome"
+		choice="rc.lua"
 	;;
     fish)
-        choice="$HOME/.config/fish/config.fish"
+        folder="$HOME/.config/fish"
+        choice="config.fish"
     ;;
     starship)
-        choice="$HOME/.config/starship.toml"
+        folder="$HOME/.config"
+        choice="starship.toml"
     ;;
 	bash)
-		choice="$HOME/.bashrc"
+		folder="$HOME"
+		choice=".bashrc"
 	;;
 	dunst)
-		choice="$HOME/.config/dunst/dunstrc"
+		folder="$HOME/.config/dunst"
+		choice="dunstrc"
 	;;
 	neovim)
-		choice="$HOME/.config/nvim/init.vim"
+		folder="$HOME/.config/nvim"
+		choice="init.vim"
 	;;
 	picom)
-		choice="$HOME/.config/picom/picom.conf"
+		folder="$HOME/.config/picom"
+		choice="picom.conf"
 	;;
 	qtile)
-		choice="$HOME/.config/qtile/config.py"
+		folder="$HOME/.config/qtile"
+		choice="config.py"
 	;;
 	spectrwm)
-		choice="$HOME/.config/spectrwm/spectrwm.conf"
+		folder="$HOME/.config/spectrwm"
+		choice="spectrwm.conf"
 	;;
 	vim)
-		choice="$HOME/.vimrc"
+		folder="$HOME"
+		choice=".vimrc"
 	;;
 	xresources)
-		choice="$HOME/.Xresources"
+		folder="$HOME"
+		choice=".Xresources"
 	;;
 	zsh)
-		choice="$HOME/.zshrc"
+		folder="$HOME"
+		choice=".zshrc"
 	;;
 	*)
 		exit 1
 	;;
 esac
 
+# cd to the config folder
+cd $folder
 # Ultimately, what do want to do with our choice?  Open in our editor!
 alacritty -e nvim "$choice"
 # emacsclient -c -a emacs "$choice"
