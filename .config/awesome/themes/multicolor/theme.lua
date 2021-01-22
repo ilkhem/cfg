@@ -12,7 +12,7 @@ local os = os
 
 local theme                                     = {}
 theme.confdir                                   = os.getenv("HOME") .. "/.config/awesome/themes/multicolor"
-theme.wallpaper                                 = theme.confdir .. "/wall.jpg"
+theme.wallpaper                                 = os.getenv("HOME") .. "/.config/wall.jpg"
 theme.font                                      = "Mononoki Nerd Font 11"
 theme.taglist_font                              = "Mononoki Nerd Font 11"
 theme.menu_bg_normal                            = "#000000"
