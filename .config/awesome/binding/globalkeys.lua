@@ -13,6 +13,9 @@ local lain = require("lain")
 local modkey = RC.vars.modkey
 local terminal = RC.vars.terminal
 local altkey = "Mod1"
+-- Keyboard map indicator and switcher
+mykeyboardlayout = awful.widget.keyboardlayout()
+
 
 local _M = {}
 
@@ -28,7 +31,7 @@ function _M.get()
               {description="show help", group="awesome"}),
     awful.key({ modkey, "Shift" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
-    awful.key({ modkey, "Shift" }, "Delete", function() awesome.spawn("xscreensaver-command -lock") end,
+    awful.key({ modkey, "Shift" }, "Delete", function() awesome.spawn.with_shell("xscreensaver-command -lock") end,
               {description = "lock screen", group = "awesome"}),
     awful.key({ modkey, "Shift", "Control"   }, "Delete", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
@@ -121,7 +124,8 @@ function _M.get()
         {description = "toggle monitor profile", group = "custom scripts"}),
     -- awful.key({ modkey, "Shift" }, "p", function() awful.spawn.with_shell("/home/ilyes/.config/spectrwm/init2scr.sh") end,
     --     {description = "swap to 2 screens", group = "custom scripts"}),
-    awful.key({ modkey, "Control" }, "k", function() awful.spawn.with_shell("/home/ilyes/.local/bin/nextkbd") end,
+    -- awful.key({ modkey, "Control" }, "k", function() awful.spawn.with_shell("/home/ilyes/.local/bin/nextkbd") end,
+    awful.key({ modkey, "Control" }, "k", function() mykeyboardlayout.next_layout() end,
         {description = "toggle keyboard layout", group = "custom scripts"}),
 
 
@@ -198,7 +202,7 @@ function _M.get()
               {description = "rofi launcher", group = "launcher"}),
     awful.key({ modkey }, "space",
         function() awful.spawn.with_shell("rofi -show drun -show-icons -config ~/.config/rofi/themes/center.rasi") end,
-              {description = "rofi launcher", group = "launcher"}),
+              {description = "rofi drun launcher", group = "launcher"}),
     -- awful.key({ modkey }, "f",
     --     function() awful.spawn('rofi -show find -modi find:~/.local/share/rofi/finder.sh -config ~/.config/rofi/themes/center.rasi -display-drun "Find: " -drun-display-format "{name}"') end,
     --           {description = "rofi file finder", group = "launcher"}),
@@ -206,7 +210,7 @@ function _M.get()
         -- function() awful.spawn.with_shell('rofi -show find -modi find:~/.local/share/rofi/finder.sh -config ~/.config/rofi/themes/center.rasi -display-drun "Find: " -drun-display-format "{name}"') end,
         -- In the following, `find $HOME /media` could be replaced by
         -- `locate $HOME media` if one wishes to use locate instead of find
-        function() awful.spawn.with_shell('find $HOME /media | rofi -threads 0 -dmenu -config ~/.config/rofi/themes/center.rasi -i -p "Find: " | xargs -r -0 xdg-open') end,
+        function() awful.spawn.with_shell('dmenu-find') end,
               {description = "rofi file finder", group = "launcher"}),
     awful.key({ "Mod1" }, "Tab",
         function() awful.spawn.with_shell("rofi -show window -show-icons -config ~/.config/rofi/themes/center.rasi") end,
@@ -222,6 +226,9 @@ function _M.get()
               {description = "a dmenu for emojis", group = "custom scripts"}),
     awful.key({ "Mod1", "Control" }, "e",
         function() awful.spawn.with_shell("dmenu-edit-config") end,
+              {description = "a dmenu for editing configs", group = "custom scripts"}),
+    awful.key({ "Mod1", "Control" }, "s",
+        function() awful.spawn.with_shell("dmenu-scrot") end,
               {description = "a dmenu for editing configs", group = "custom scripts"}),
 
 

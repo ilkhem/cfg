@@ -82,9 +82,9 @@ end)
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 -- Enable sloppy focus, so that focus follows mouse.
-client.connect_signal("mouse::enter", function(c)
-    c:emit_signal("request::activate", "mouse_enter", {raise = true})
-end)
+-- client.connect_signal("mouse::enter", function(c)
+    -- c:emit_signal("request::activate", "mouse_enter", {raise = true})
+-- end)
 -- client.connect_signal("mouse::move", function(c)
 --     c:emit_signal("request::activate", "mouse_move", {raise = true})
 -- end)

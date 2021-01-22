@@ -65,10 +65,6 @@ RC.globalkeys = binding.bindtotags(RC.globalkeys)
 -- Set root
 root.buttons(binding.globalbuttons())
 root.keys(RC.globalkeys)
-
--- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
-
 -- {{{ Statusbar: Wibar
 
 -- awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s) end)
@@ -126,10 +122,10 @@ end
 
 run_once("picom")
 run_once("lxsession")
-run_once("nitrogen --restore")
+-- run_once("nitrogen --restore")
 run_once("nm-applet")
 run_once("volumeicon")
--- run_once("xcape -e 'Control_L=Escape'")
+run_once("xcape -e 'Control_L=Escape'")
 run_once("powerkit")
-run_once("libinput-gestures-setup start")
+-- run_once("libinput-gestures-setup start")
 -- run_once("udiskie")

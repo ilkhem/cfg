@@ -126,10 +126,36 @@ local memicon = wibox.widget.imagebox(theme.widget_mem)
 local memory = lain.widget.mem({
     settings = function()
         widget:set_markup(markup.fontfg(theme.font, "#e0da37", mem_now.used .. "M "))
-    end
+        end
 })
 
 
+-- a separator
+mysep = wibox.widget{
+  markup = markup.fontfg(theme.font, '#434758', '|'),
+  align  = 'center',
+  valign = 'center',
+  widget = wibox.widget.textbox
+}
+
+
+-- prints spotify status
+-- TODO: update to use playerctl
+myspotifystatus = awful.widget.watch("spotify-status", 1, function(widget, stdout)
+      widget:set_markup(markup.fontfg(theme.font, '#e1acff', stdout))
+end)
+
+
+-- prints battery status
+mybatterystatus = awful.widget.watch("bat-status", 15, function(widget, stdout)
+      widget:set_markup(markup.fontfg(theme.font, theme.fg_normal, stdout))
+end)
+
+
+-- print number of pcaman updates
+mypacupdates = awful.widget.watch("pacupdate", 360, function(widget, stdout)
+      widget:set_markup(markup.fontfg(theme.font, '#24beae', " " .. stdout))
+end)
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 -- {{{ Wibar
@@ -137,34 +163,8 @@ local memory = lain.widget.mem({
 
 awful.screen.connect_for_each_screen(function(s)
   -- Wallpaper
-  -- set_wallpaper(s)
+  set_wallpaper(s)
 
-  -- a separator
-  s.mysep = wibox.widget{
-    markup = markup.fontfg(theme.font, '#434758', '|'),
-    align  = 'center',
-    valign = 'center',
-    widget = wibox.widget.textbox
-  }
-
-
-  -- prints spotify status
-  -- TODO: update to use playerctl
-  s.myspotifystatus = awful.widget.watch("spotify-status", 1, function(widget, stdout)
-        widget:set_markup(markup.fontfg(theme.font, '#e1acff', stdout))
-  end)
-
-
-  -- prints battery status
-  s.mybatterystatus = awful.widget.watch("bat-status", 15, function(widget, stdout)
-        widget:set_markup(markup.fontfg(theme.font, theme.fg_normal, stdout))
-  end)
-
-
-  -- print number of pcaman updates
-  s.mypacupdates = awful.widget.watch("pacupdate", 360, function(widget, stdout)
-        widget:set_markup(markup.fontfg(theme.font, '#24beae', " " .. stdout))
-  end)
 
 
   -- Create a promptbox for each screen
@@ -206,43 +206,43 @@ awful.screen.connect_for_each_screen(function(s)
           s.mytaglist,
           s.mypromptbox,
           -- s.mytasklist,
-          s.mysep,
+          mysep,
       },
       s.mytasklist, -- Middle widget
       -- nil,
       { -- Right widgets
           layout = wibox.layout.fixed.horizontal,
           -- awful.widget.watch("spotify-status", 1),
-          s.myspotifystatus,
-          s.mysep,
+          myspotifystatus,
+          mysep,
           -- netdownicon,
           -- netdowninfo,
           -- netupicon,
           -- netupinfo.widget,
           cpuicon,
           cpu.widget,
-          s.mysep,
+          mysep,
           memicon,
           memory.widget,
-          s.mysep,
+          mysep,
           weathericon,
           theme.weather.widget,
           -- tempicon,
           -- temp.widget,
-          s.mysep,
+          mysep,
           baticon,
           -- bat.widget,
-          s.mybatterystatus,
+          mybatterystatus,
           -- s.mysep,
           -- volicon,
           -- theme.volume.widget,
-          s.mysep,
-          s.mypacupdates,
-          s.mysep,
+          mysep,
+          mypacupdates,
+          mysep,
           clockicon,
           mytextclock,
           theme.cal.widget,
-          s.mysep,
+          mysep,
           awful.widget.keyboardlayout(),
           -- s.mylayoutbox,
           wibox.widget.systray(),
