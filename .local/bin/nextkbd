@@ -1,4 +1,20 @@
 #!/bin/bash
+
+
+## THIS IS NOT THE GREATEST IMPLEMENTATION
+# each time this script runs, it adds a new xcape process
+# it also adds the options to the option list, making them duplicate (but doesn't seem to have
+# negative effects)
+
+# SOLUTION ON awesomeWM:
+# - have xcape be one of the run_once startup apps
+# - set the layouts and options using `localectl` as follows:
+#       `localectl --no-convert set-x11-keymap gb,us "" "" ctrl:nocaps,shift:both_capslock`
+# - change the keyboard shortcut to use awesome's builtin nextkbd function instead of this script.
+
+
+
+
 CURR_LAYOUT=`setxkbmap -query | grep layout | awk '{printf ("%s", $2)}'`
 
 if [ "$CURR_LAYOUT" = "us" ]
