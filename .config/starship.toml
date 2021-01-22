@@ -3,8 +3,9 @@ add_newline = false
 # Use custom format
 format = """
 $python\
- $directory\
+$directory\
 $git_branch\
+$git_status\
 $cmd_duration\
 $character"""
 
@@ -28,11 +29,17 @@ truncation_length = 1
 
 [git_branch]
 disabled = false
-format = '\([$symbol$branch]($style)\) '
+format = '\([$symbol$branch]($style)\)'
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style))'
+staged = '[++\($count\)](green)'
+style = "red"
 
 [python]
 # format = '[(\($symbol$version\))]($style) '
-format = '[(\($symbol$virtualenv\))]($style) '
+# format = '[(\($symbol$virtualenv\) )]($style)'
+format = '[(\($virtualenv\))]($style)'
 symbol = "🐍:"
 pyenv_version_name = true
 disabled = false
