@@ -1,7 +1,18 @@
-source ~/.config/nvim/plugin/plugins.vim
-
 let mapleader =","
 let maplocalleader =","
+
+
+" install vimplug if not on the system
+if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
+	echo "Downloading junegunn/vim-plug to manage plugins..."
+	silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/
+	silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim
+	autocmd VimEnter * PlugInstall
+endif
+
+" source the plugins
+source ~/.config/nvim/plugins.vim
+
 
 " Some basics:
 set nocompatible
@@ -9,7 +20,6 @@ set encoding=utf-8
 set number relativenumber
 syntax on
 filetype plugin on
-set number
 set mouse=a
 set ts=4
 
