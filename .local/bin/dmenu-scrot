@@ -1,0 +1,41 @@
+#!/bin/bash
+
+IMG_PATH=/home/ilyes/screenshots/
+FS_DELAY=0.5
+EDIT=gimp
+TIME=3000 #Miliseconds notification should remain visible
+
+
+prog="
+-- Screnshots (powered by scrot and dmenu) --
+1.fullscreen
+2.selection
+3.focused
+4.copy_fullscreen
+5.copy_selection
+6.copy_focused
+7.edit_fullscreen
+8.edit_selection
+9.edit_focused
+"
+
+cmd=$(rofi -dmenu -config ~/.config/rofi/themes/dmenu.rasi -l 20 -i -p 'Screenshot:'  <<< "$prog")
+
+# exit if none chosen
+[ -z "$cmd" ] && exit
+
+cd $IMG_PATH
+case ${cmd%% *} in
+
+	1.fullscreen)	scrot -d $FS_DELAY '%Y-%m-%d-@%H-%M-%S-d-scrot.png'  && notify-send -u low -t $TIME 'Scrot' 'Fullscreen saved'  ;;
+    2.selection)	scrot -s '%Y-%m-%d-@%H-%M-%S-s-scrot.png' && notify-send -u low -t $TIME 'Scrot' 'Screenshot of section saved'    ;;
+    3.focused)	scrot -u -b '%Y-%m-%d-@%H-%M-%S-u-scrot.png' && notify-send -u low -t $TIME 'Scrot' 'Screenshot of focused window saved'    ;;
+    4.copy_fullscreen) scrot -d $FS_DELAY '%Y-%m-%d-@%H-%M-%S-d-scrot.png' -e 'xclip -selection clipboard -target image/png -in $f && echo -n "$f" | xclip -selection primary && rm -f "$f"'  && notify-send -u low -t $TIME 'Scrot' 'Screenshot copied' ;;
+    5.copy_selection) scrot -s '%Y-%m-%d-@%H-%M-%S-s-scrot.png' -e 'xclip -selection clipboard -target image/png -in $f && echo -n "$f" | xclip -selection primary && rm -f "$f"'  && notify-send -u low -t $TIME 'Scrot' 'Screenshot copied' ;;
+    6.copy_focused) scrot -u -b '%Y-%m-%d-@%H-%M-%S-u-scrot.png' -e 'xclip -selection clipboard -target image/png -in $f && echo -n "$f" | xclip -selection primary && rm -f "$f"'  && notify-send -u low -t $TIME 'Scrot' 'Screenshot copied' ;;
+	7.edit_fullscreen)	scrot -d $FS_DELAY '%Y-%m-%d-@%H-%M-%S-d-scrot.png' -e "$EDIT \$f"  && notify-send -u low -t $TIME 'Scrot' 'Screenshot edited and saved' ;;
+    8.edit_selection)	scrot -s '%Y-%m-%d-@%H-%M-%S-s-scrot.png' -e "$EDIT \$f"  && notify-send -u low -t $TIME 'Scrot' 'Screenshot edited and saved' ;;
+    9.edit_focused)	scrot -u -b '%Y-%m-%d-@%H-%M-%S-u-scrot.png' -e "$EDIT \$f"  && notify-send -u low -t $TIME 'Scrot' 'Screenshot edited and saved' ;;
+  	*)		exec "'${cmd}'"  ;;
+esac
+
