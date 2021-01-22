@@ -3,9 +3,9 @@ let maplocalleader =","
 
 
 " install vimplug if not on the system
-if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
+if ! filereadable(glob("$HOME/.config/nvim/autoload/plug.vim"))
 	echo "Downloading junegunn/vim-plug to manage plugins..."
-	silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/
+	silent !mkdir -p $HOME/.config/nvim/autoload/
 	silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim
 	autocmd VimEnter * PlugInstall
 endif
@@ -22,6 +22,7 @@ syntax on
 filetype plugin on
 set mouse=a
 set ts=4
+set clipboard+=unnamedplus
 
 " split navigations
 nnoremap <C-J> <C-W><C-J>
