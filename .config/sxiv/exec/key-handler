@@ -13,7 +13,7 @@ do
 		        readlink -f "$file" | tr -d '\n' | xclip -selection clipboard &&
 			    notify-send "$(readlink -f "$file") copied to clipboard" & ;;
 	    "d")
-		        [ "$(printf "No\\nYes" | rofi -dmenu -i -p "Really delete $file?")" = "Yes" ] && rm "$file" && notify-send "$file deleted." ;;
+		        [ "$(printf "No\\nYes" | rofi -config ~/.config/rofi/themes/dmenu.rasi -dmenu -i -p "Really delete $file?")" = "Yes" ] && rm "$file" && notify-send "$file deleted." ;;
 	    "g")	gimp && setsid -f gimp "$file" ;;
         esac
 done
