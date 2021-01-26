@@ -31,7 +31,7 @@ function _M.get()
               {description="show help", group="awesome"}),
     awful.key({ modkey, "Shift" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
-    awful.key({ modkey, "Shift" }, "Delete", function() awesome.spawn.with_shell("xscreensaver-command -lock") end,
+    awful.key({ modkey, "Shift" }, "Delete", function() awful.spawn.with_shell("xscreensaver-command -lock") end,
               {description = "lock screen", group = "awesome"}),
     awful.key({ modkey, "Shift", "Control"   }, "Delete", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
@@ -116,6 +116,8 @@ function _M.get()
         {description = "launch thunar", group = "applications"}),
     awful.key({ modkey }, "v", function() awful.spawn(terminal .. " -e nvim") end,
         {description = "launch nvim", group = "applications"}),
+    awful.key({ modkey }, "t", function() awful.spawn("emacs") end,
+        {description = "launch emacs", group = "applications"}),
 
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
