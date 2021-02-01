@@ -48,23 +48,3 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-
-(package! org-bullets)  ; fancier bullets
-;; (package! org-fancy-priorities)  ; fancier priorities
-(package! org-super-agenda)  ; supercharge the agenda
-(package! org-brain)  ; dump your brain into emacs
-(package! move-text)  ; move text using M-up/down
-(package! deadgrep)  ; fast, beautiful text search that your Emacs deserves using ripgrep
-(package! async)  ; async processing in emacs
-(package! rotate)  ; rotate multiple windows
-; (package! company-jedi)  ; completion back-end for Python JEDI.
-(package! company-posframe)  ; let company use child frame as its candidate menu
-(package! all-the-icons-dired)
-(package! peep-dired)
-(package! dired-open)
-(package! emojify)
-(package! resize-window)
-(package! wc-mode)  ; wordcount minor mode for the modeline
-(package! writeroom-mode)  ; minor mode for distraction free editing
-;; (package! evil-tutor)
-;; (package! origami)  ; fold text blocks
