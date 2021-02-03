@@ -61,6 +61,29 @@
 
 
 
+;; ------------------------------------------------------------------------------
+;; MU4E
+
+(set-email-account! "gmail"
+  '((mu4e-sent-folder       . "/gmail/Sent Mail")
+    (mu4e-drafts-folder     . "/gmail/Drafts")
+    (mu4e-trash-folder      . "/gmail/Trash")
+    (mu4e-refile-folder     . "/gmail/All Mail")
+    (smtpmail-smtp-user     . "mrlaysoun@gmail.com")
+    (user-mail-address      . "mrlaysoun@gmail.com")    ;; only needed for mu < 1.4
+    (mu4e-get-mail-command  . "mbsync -c ~/.config/mu4e/mbsyncrc -a")
+    (User-full-name         . "Ilyes khemakhem")
+    (mu4e-compose-signature . "---\nIlyes"))
+  t)
+
+(setq mu4e-maildir-shortcuts
+      '(("/gmail/Inbox"      . ?i)
+        ("/gmail/Sent Items" . ?s)
+        ("/gmail/Drafts"     . ?d)
+        ("/gmail/Trash"      . ?t)))
+
+
+
 ;;;;;;;;;; LANGUAGES ;;;;;;;;;;;
 
 ;; ------------------------------------------------------------------------------
@@ -85,13 +108,32 @@
   (define-key org-mode-map (kbd "C-c )") 'reftex-citation))
 
 (setq reftex-default-bibliography (quote ("~/texmf/bibtex/bib/refs_zot.bib")))
+(use-package! org-ref
+  :after org
+  :config
+  (setq org-ref-completion-library 'org-ref-ivy-cite))
+(require 'org-ref)
+(setq org-ref-default-bibliography '("~/texmf/bibtex/bib/refs_zot.bib"))
+(setq bibtex-completion-bibliography "~/texmf/bibtex/bib/refs_zot.bib")
+(setq bibtex-completion-pdf-field "file")
+(defun my/org-ref-open-pdf-at-point ()
+  "Open the pdf for bibtex key under point if it exists."
+  (interactive)
+  (let* ((results (org-ref-get-bibtex-key-and-file))
+         (key (car results))
+	 (pdf-file (car (bibtex-completion-find-pdf key))))
+    (if (file-exists-p pdf-file)
+	(org-open-file pdf-file)
+      (message "No PDF found for %s" key))))
+(setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point)
+
 
 (after! org
   (add-hook 'org-mode-hook 'org-mode-reftex-setup)
-  ;; (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
-  ;;   (defadvice! org-edit-latex-emv-after-insert ()
-  ;;     :after #'org-cdlatex-environment-indent
-  ;;     (org-edit-latex-environment))
+  (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+    (defadvice! org-edit-latex-emv-after-insert ()
+      :after #'org-cdlatex-environment-indent
+      (org-edit-latex-environment))
   (setq org-directory "~/notes/"
         org-use-property-inheritance t  ; it's convenient to have properties inherited
         ;; org-export-in-background t        ; run export processes in external emacs process
@@ -125,6 +167,7 @@
     '(outline-8 :weight semi-bold)
     '(outline-9 :weight semi-bold)
     '(org-document-title :height 1.2))
+  ;; (setq org-link-search-must-match-exact-headline nil)
   ;; (setq org-latex-pdf-process '("latexmk -f -pdf %f"))
   (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
   ;; (setq org-latex-pdf-process '("latexmk -%latex -shell-escape -interaction=nonstopmode -f -pdf -output-directory=%o %f"))
@@ -144,6 +187,213 @@
   (setq org-export-latex-hyperref-format "\\ref{%s}")
   )
 
+(setq org-super-agenda-groups '((:name "Today"
+                                  :time-grid t
+                                  :scheduled today)
+                           (:name "Due today"
+                                  :deadline today)
+                           (:name "Important"
+                                  :priority "A")
+                           (:name "Overdue"
+                                  :deadline past)
+                           (:name "Due soon"
+                                  :deadline future)
+                           (:name "Big Outcomes"
+                                  :tag "bo")))
+
+
+
 
 ;; ------------------------------------------------------------------------------
 ;; LATEX
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+(setq TeX-view-evince-keep-focus t)
+(setq TeX-file-line-error t)
+;; (setq +latex-viewers '(zathura))
+(after! latex
+  (map! :map cdlatex-mode-map
+      :i "TAB" #'cdlatex-tab)
+  )
+
+(use-package! auto-activating-snippets
+  :hook (LaTeX-mode . auto-activating-snippets-mode)
+  :hook (org-mode . auto-activating-snippets-mode)
+  :config (require 'latex-auto-activating-snippets)
+  (use-package! latex-auto-activating-snippets)
+  (apply #'aas-set-snippets 'org-mode laas-basic-snippets)
+  (apply #'aas-set-snippets 'org-mode laas-subscript-snippets)
+  (apply #'aas-set-snippets 'org-mode laas-frac-snippet)
+  (apply #'aas-set-snippets 'org-mode laas-accent-snippets)
+  )
+
+(use-package! latex-auto-activating-snippets
+  :config
+  (defun als-tex-fold-maybe ()
+    (unless (equal "/" als-transient-snippet-key)
+      (+latex-fold-last-macro-a)))
+  (add-hook 'aas-post-snippet-expand-hook #'als-tex-fold-maybe))
+
+
+(after! tex
+  (map!
+   :map LaTeX-mode-map
+   :ei [C-return] #'LaTeX-insert-item)
+  (setq TeX-electric-math '("\\(" . "")))
+
+(after! latex
+  (setq TeX-show-compilation t))
+
+(defun string-offset-roman-chars (offset word)
+  "Shift the codepoint of each charachter in WORD by OFFSET with an extra -6 shift if the letter is lowercase"
+  (apply 'string
+         (mapcar (lambda (c)
+                   (string-offset-apply-roman-char-exceptions
+                    (+ (if (>= c 97) (- c 6) c) offset)))
+                 word)))
+
+(defvar string-offset-roman-char-exceptions
+  '(;; lowercase serif
+    (119892 .  8462) ; ℎ
+    ;; lowercase caligraphic
+    (119994 . 8495) ; ℯ
+    (119996 . 8458) ; ℊ
+    (120004 . 8500) ; ℴ
+    ;; caligraphic
+    (119965 . 8492) ; ℬ
+    (119968 . 8496) ; ℰ
+    (119969 . 8497) ; ℱ
+    (119971 . 8459) ; ℋ
+    (119972 . 8464) ; ℐ
+    (119975 . 8466) ; ℒ
+    (119976 . 8499) ; ℳ
+    (119981 . 8475) ; ℛ
+    ;; fraktur
+    (120070 . 8493) ; ℭ
+    (120075 . 8460) ; ℌ
+    (120076 . 8465) ; ℑ
+    (120085 . 8476) ; ℜ
+    (120092 . 8488) ; ℨ
+    ;; blackboard
+    (120122 . 8450) ; ℂ
+    (120127 . 8461) ; ℍ
+    (120133 . 8469) ; ℕ
+    (120135 . 8473) ; ℙ
+    (120136 . 8474) ; ℚ
+    (120137 . 8477) ; ℝ
+    (120145 . 8484) ; ℤ
+    )
+  "An alist of deceptive codepoints, and then where the glyph actually resides.")
+
+(defun string-offset-apply-roman-char-exceptions (char)
+  "Sometimes the codepoint doesn't contain the char you expect.
+Such special cases should be remapped to another value, as given in `string-offset-roman-char-exceptions'."
+  (if (assoc char string-offset-roman-char-exceptions)
+      (cdr (assoc char string-offset-roman-char-exceptions))
+    char))
+
+(defun TeX-fold-parenthesize-as-neccesary (tokens &optional suppress-left suppress-right)
+  "Add ❪ ❫ parenthesis as if multiple LaTeX tokens appear to be present"
+  (if (TeX-string-single-token-p tokens) tokens
+    (concat (if suppress-left "" "❪")
+            tokens
+            (if suppress-right "" "❫"))))
+
+(defun TeX-string-single-token-p (teststring)
+  "Return t if TESTSTRING appears to be a single token, nil otherwise"
+  (if (string-match-p "^\\\\?\\w+$" teststring) t nil))
+
+
+(setq TeX-fold-math-spec-list
+  `(;; missing/better symbols
+  ("≤" ("le"))
+  ("≥" ("ge"))
+  ("≠" ("ne"))
+  ;; conviniance shorts -- these don't work nicely ATM
+  ;; ("‹" ("left"))
+  ;; ("›" ("right"))
+  ;; private macros
+  ("ℝ" ("RR"))
+  ("ℕ" ("NN"))
+  ("ℤ" ("ZZ"))
+  ("ℚ" ("QQ"))
+  ("ℂ" ("CC"))
+  ("ℙ" ("PP"))
+  ("ℍ" ("HH"))
+  ("𝔼" ("EE"))
+  ("𝑑" ("dd"))
+  ;; known commands
+  ("" ("phantom"))
+  (,(lambda (num den) (if (and (TeX-string-single-token-p num) (TeX-string-single-token-p den))
+                          (concat num "／" den)
+                          (concat "❪" num "／" den "❫"))) ("frac"))
+  (,(lambda (arg) (concat "√" (TeX-fold-parenthesize-as-neccesary arg))) ("sqrt"))
+  (,(lambda (arg) (concat "⭡" (TeX-fold-parenthesize-as-neccesary arg))) ("vec"))
+  ("‘{1}’" ("text"))
+  ;; private commands
+  ("|{1}|" ("abs"))
+  ("‖{1}‖" ("norm"))
+  ("⌊{1}⌋" ("floor"))
+  ("⌈{1}⌉" ("ceil"))
+  ("⌊{1}⌉" ("round"))
+  ("𝑑{1}/𝑑{2}" ("dv"))
+  ("∂{1}/∂{2}" ("pdv"))
+  ;; fancification
+  ("{1}" ("mathrm"))
+  (,(lambda (word) (string-offset-roman-chars 119743 word)) ("mathbf"))
+  (,(lambda (word) (string-offset-roman-chars 119951 word)) ("mathcal"))
+  (,(lambda (word) (string-offset-roman-chars 120003 word)) ("mathfrak"))
+  (,(lambda (word) (string-offset-roman-chars 120055 word)) ("mathbb"))
+  (,(lambda (word) (string-offset-roman-chars 120159 word)) ("mathsf"))
+  (,(lambda (word) (string-offset-roman-chars 120367 word)) ("mathtt"))
+  )
+  TeX-fold-macro-spec-list
+  '(
+  ;; as the defaults
+  ("[f]" ("footnote" "marginpar"))
+  ("[c]" ("cite"))
+  ("[l]" ("label"))
+  ("[r]" ("ref" "pageref" "eqref"))
+  ("[i]" ("index" "glossary"))
+  ("..." ("dots"))
+  ("{1}" ("emph" "textit" "textsl" "textmd" "textrm" "textsf" "texttt"
+          "textbf" "textsc" "textup"))
+  ;; tweaked defaults
+  ("©" ("copyright"))
+  ("®" ("textregistered"))
+  ("™"  ("texttrademark"))
+  ("[1]:||►" ("item"))
+  ("❡❡ {1}" ("part" "part*"))
+  ("❡ {1}" ("chapter" "chapter*"))
+  ("§ {1}" ("section" "section*"))
+  ("§§ {1}" ("subsection" "subsection*"))
+  ("§§§ {1}" ("subsubsection" "subsubsection*"))
+  ("¶ {1}" ("paragraph" "paragraph*"))
+  ("¶¶ {1}" ("subparagraph" "subparagraph*"))
+  ))
+
+(after! cdlatex
+  (setq ;; cdlatex-math-symbol-prefix ?\; ;; doesn't work at the moment :(
+   cdlatex-math-symbol-alist
+   '( ;; adding missing functions to 3rd level symbols
+     (?_    ("\\downarrow"  ""           "\\inf"))
+     (?2    ("^2"           "\\sqrt{?}"     ""     ))
+     (?3    ("^3"           "\\sqrt[3]{?}"  ""     ))
+     (?^    ("\\uparrow"    ""           "\\sup"))
+     (?k    ("\\kappa"      ""           "\\ker"))
+     (?m    ("\\mu"         ""           "\\lim"))
+     (?c    (""             "\\circ"     "\\cos"))
+     (?d    ("\\delta"      "\\partial"  "\\dim"))
+     (?D    ("\\Delta"      "\\nabla"    "\\deg"))
+     ;; no idea why \Phi isnt on 'F' in first place, \phi is on 'f'.
+     (?F    ("\\Phi"))
+     ;; now just conveniance
+     (?.    ("\\cdot" "\\dots"))
+     (?:    ("\\vdots" "\\ddots"))
+     (?*    ("\\times" "\\star" "\\ast")))
+   cdlatex-math-modify-alist
+   '( ;; my own stuff
+     (?B    "\\mathbb"        nil          t    nil  nil)
+     (?a    "\\abs"           nil          t    nil  nil))))

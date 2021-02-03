@@ -48,5 +48,17 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-
+(package! move-text)  ; move text using M-up/down
+(package! deadgrep)  ; fast, beautiful text search that your Emacs deserves using ripgrep
 (package! dired-open)
+(package! auto-activating-snippets :recipe
+  (:host github :repo "ymarco/auto-activating-snippets")
+  :pin "85cd255347c4cc59e734eaec892599449ce48022"
+  )
+(package! latex-auto-activating-snippets :recipe
+  (:host github :repo "tecosaur/LaTeX-auto-activating-snippets")
+  )
+(package! org-ref)
+(package! ivy-bibtex)
+;; (package! async)
+(package! org-super-agenda)
