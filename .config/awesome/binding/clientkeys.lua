@@ -11,7 +11,7 @@ local modkey = RC.vars.modkey
 
 function _M.get()
   local clientkeys = gears.table.join(
-    awful.key({ modkey, "Shift"   }, "f",
+    awful.key({ modkey, }, "f",
       function (c)
         c.fullscreen = not c.fullscreen
         c:raise()
@@ -19,7 +19,7 @@ function _M.get()
       {description = "toggle fullscreen", group = "client"}),
     awful.key({ modkey,           }, "q",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
-    awful.key({ modkey }, "f",  awful.client.floating.toggle                     ,
+    awful.key({ modkey, "Shift" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
               {description = "move to master", group = "client"}),

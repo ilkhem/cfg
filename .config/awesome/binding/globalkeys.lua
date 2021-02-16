@@ -112,17 +112,17 @@ function _M.get()
         {description = "launch firefox", group = "applications"}),
     awful.key({ modkey }, "b", function() awful.spawn("thunderbird") end,
         {description = "launch thunderbird", group = "applications"}),
-    awful.key({ modkey }, "e", function() awful.spawn("thunar") end,
+    awful.key({ modkey }, "r", function() awful.spawn("thunar") end,
         {description = "launch thunar", group = "applications"}),
     awful.key({ modkey }, "v", function() awful.spawn(terminal .. " -e nvim") end,
         {description = "launch nvim", group = "applications"}),
-    awful.key({ modkey }, "t", function() awful.spawn("emacs") end,
+    awful.key({ modkey }, "e", function() awful.spawn("emacs") end,
         {description = "launch emacs", group = "applications"}),
 
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- Custom scripts
-    awful.key({ modkey, "Control" }, "p", function() awful.spawn.with_shell("/home/ilyes/.local/bin/change-screen-config") end,
+    awful.key({ "Mod1", "Control" }, "p", function() awful.spawn.with_shell("/home/ilyes/.local/bin/change-screen-config") end,
         {description = "toggle monitor profile", group = "custom scripts"}),
     -- awful.key({ modkey, "Shift" }, "p", function() awful.spawn.with_shell("/home/ilyes/.config/spectrwm/init2scr.sh") end,
     --     {description = "swap to 2 screens", group = "custom scripts"}),
@@ -160,8 +160,8 @@ function _M.get()
 
     --   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     -- Prompt
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"}),
+    -- awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
+    --           {description = "run prompt", group = "launcher"}),
 
     awful.key({ modkey, "Shift" }, "x",
               function ()
