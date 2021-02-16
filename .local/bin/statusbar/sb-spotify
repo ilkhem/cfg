@@ -1,0 +1,20 @@
+#!/bin/sh
+
+case $BLOCK_BUTTON in
+    # 1) spotify ;;
+	3) playerctl play-pause ;;
+    5) playerctl previous ;;
+    4) playerctl next ;;
+	6) st -e nvim "$0" ;;
+esac
+
+
+STATUS=$(qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get org.mpris.MediaPlayer2.Player PlaybackStatus)
+ARTIST=$(qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Metadata | grep xesam:artist | awk -F: '{print $3}')
+TRACK=$(qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Metadata | grep xesam:title | awk -F: '{print $3}')
+SPOTIFY_NAME="${ARTIST} -${TRACK}"
+ARL=$(echo $ARTIST | wc -m)
+TRL=$(echo $TRACK | wc -m)
+LL=$((ARL + TRL))
+[ $LL -le 58 ] || SPOTIFY_NAME="${SPOTIFY_NAME:0:55}..."
+[ "$STATUS" = "Playing" ] && echo "🎷$SPOTIFY_NAME"

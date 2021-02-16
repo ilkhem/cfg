@@ -1,0 +1,21 @@
+#!/bin/sh
+
+case $BLOCK_BUTTON in
+	1) notify-send "🧠 Memory hogs" "$(ps axch -o cmd:15,%mem --sort=-%mem | head)" ;;
+	2) setsid -f st -e htop ;;
+	3) notify-send "🧠 Memory module" "\- Shows Memory Used/Total.
+- Click to show memory hogs.
+- Middle click to open htop." ;;
+	6) st -e nvim "$0" ;;
+esac
+
+
+awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else printf "💻%d%%\n", ($2+$4-u1) * 100 / (t-t1); }' <(grep 'cpu ' /proc/stat) <(sleep 0.5;grep 'cpu ' /proc/stat)
+
+# read cpu a b c previdle rest < /proc/stat
+# prevtotal=$((a+b+c+previdle))
+# sleep 0.5
+# read cpu a b c idle rest < /proc/stat
+# total=$((a+b+c+idle))
+# cpu=$((100*( (total-prevtotal) - (idle-previdle) ) / (total-prevtotal) ))
+# printf "💻 %d%%\n" $cpu

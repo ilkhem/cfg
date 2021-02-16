@@ -1,0 +1,12 @@
+#!/bin/sh
+
+case $BLOCK_BUTTON in
+	1) tmp=`checkupdates`; notify-send "📦 Packages to update:" "$tmp" ;;
+	# 3) notify-send "🎁 Upgrade module" "📦: number of upgradable packages
+# - Left click to upgrade packages
+# - Middle click to show upgradable packages" ;;
+	6) st -e nvim "$0" ;;
+esac
+
+# checkupdates | wc -l | awk '{printf ("📦 %i updates\n", $1)}'
+checkupdates | wc -l | awk '{printf ("📦 %i\n", $1)}'

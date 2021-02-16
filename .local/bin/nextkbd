@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 
 ## THIS IS NOT THE GREATEST IMPLEMENTATION
@@ -23,9 +23,8 @@ then
 elif [ "$CURR_LAYOUT" = "gb" ]
 then
         NEXT_LAYOUT="us"
+else
+        NEXT_LAYOUT="gb"
 fi
-echo -e "setting keyboard layout to $NEXT_LAYOUT"
 
-setxkbmap $NEXT_LAYOUT -option ctrl:nocaps,shift:both_capslock
-xcape -e 'Control_L=Escape'
-
+setxkbmap "$NEXT_LAYOUT"

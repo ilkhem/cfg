@@ -4,6 +4,10 @@
 
 
 declare -a options=("alacritty"
+"dwm"
+"dwmblocks"
+"st"
+"dmenu"
 "awesome"
 "neovim"
 "fish"
@@ -30,6 +34,22 @@ case "$choice" in
 	quit)
 		echo "Program terminated." && exit 1
 	;;
+    dwm)
+        folder="$HOME/.source/dwm-6.2"
+        choice="config.def.h"
+    ;;
+    dwmblocks)
+        folder="$HOME/.source/dwmblocks"
+        choice="blocks.h"
+    ;;
+    st)
+        folder="$HOME/.source/st-0.8.4"
+        choice="config.def.h"
+    ;;
+    dmenu)
+        folder="$HOME/.source/dmenu-5.0"
+        choice="config.def.h"
+    ;;
 	alacritty)
 		folder="$HOME/.config/alacritty"
 		choice="alacritty.yml"
@@ -90,7 +110,7 @@ esac
 # cd to the config folder
 cd $folder
 # Ultimately, what do want to do with our choice?  Open in our editor!
-alacritty -e nvim "$choice"
+st -e nvim "$choice"
 # emacsclient -c -a emacs "$choice"
 
 

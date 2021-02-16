@@ -6,9 +6,7 @@ EDIT=gimp
 TIME=3000 #Miliseconds notification should remain visible
 
 
-prog="
--- Screnshots (powered by scrot and dmenu) --
-1.fullscreen
+prog="1.fullscreen
 2.selection
 3.focused
 4.copy_fullscreen
@@ -16,10 +14,9 @@ prog="
 6.copy_focused
 7.edit_fullscreen
 8.edit_selection
-9.edit_focused
-"
+9.edit_focused"
 
-cmd=$(rofi -dmenu -config ~/.config/rofi/themes/dmenu.rasi -l 20 -i -p 'Screenshot:'  <<< "$prog")
+cmd=$(rofi -dmenu -config ~/.config/rofi/themes/dmenu.rasi -i -p 'Screenshot:'  <<< "$prog")
 
 # exit if none chosen
 [ -z "$cmd" ] && exit
