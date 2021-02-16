@@ -211,3 +211,9 @@ let g:lightline = {
       \ 'colorscheme': 'landscape',
       \ }
 set noshowmode  " remove --insert-- and --visual-- because lightline has them
+
+
+
+""" AUTOMAKE suckless programs
+" autocmd BufWritePost ~/.source/dwm-6.2/config.def.h !cd ~/.source/dwm-6.2/; sudo make clean install
+" autocmd BufWritePost ~/.source/st-0.8.4/config.def.h !cd ~/.source/st-0.8.4; sudo -A make clean install
