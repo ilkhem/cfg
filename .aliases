@@ -10,7 +10,7 @@ alias config='/usr/bin/git --git-dir=/home/ilyes/.cfg/ --work-tree=/home/ilyes'
 
 # vim and emacs
 alias vim='nvim'
-alias nvim='nvim --listen /tmp/mynvimserver'
+# alias nvim='nvim --listen /tmp/mynvimserver'
 alias em='/usr/bin/emacs -nw'
 alias emacs="emacsclient -c -a 'emacs'"
 alias doomsync="~/.emacs.d/bin/doom sync"
@@ -56,11 +56,16 @@ alias vimrc="vim ~/.vimrc"
 alias zshrc="vim ~/.zshrc"
 alias fishrc="vim ~/.config/fish/config.fish"
 
-# alias ls='ls -GFh'
-alias ll='ls -lhGF'
-alias l='ls -lahGF'
+# if exa is installed
+alias ls='exa'
+alias ll='exa -lF --git'
+alias l='exa -laF --git'
 
-alias gpg="gpg2"
+# # alias ls='ls -GFh'
+# alias ll='ls -lhGF'
+# alias l='ls -lahGF'
+
+# alias gpg="gpg2"
 # alias st="$HOME/Apps/sublime_text_3/sublime_text"
 
 alias t="todo.sh"
