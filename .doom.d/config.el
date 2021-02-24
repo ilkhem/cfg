@@ -21,6 +21,10 @@
 (setq which-key-idle-delay 0.5)
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (+ivy/switch-buffer))
+(setq +ivy-buffer-preview t)
 (map! :n [mouse-8] #'better-jumper-jump-backward
       :n [mouse-9] #'better-jumper-jump-forward)
 (custom-set-faces! '(doom-modeline-buffer-modified :foreground "orange"))
@@ -29,7 +33,16 @@
       :desc "Load new theme"
       "h t" #'counsel-load-theme)
 
-
+;; MODELINE
+(defun doom-modeline-conditional-buffer-encoding ()
+  "We expect the encoding to be LF UTF-8, so only show the modeline when this is not the case"
+  (setq-local doom-modeline-buffer-encoding
+              (unless (or (eq buffer-file-coding-system 'utf-8-unix)
+                          (eq buffer-file-coding-system 'utf-8)))))
+(add-hook 'after-change-major-mode-hook #'doom-modeline-conditional-buffer-encoding)
+(custom-set-faces!
+  '(doom-modeline-buffer-modified :foreground "orange"))
+(setq global-hl-todo-mode t)
 
 
 

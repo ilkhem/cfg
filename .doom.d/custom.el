@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
-   '("~/notes/minor-project.org" "~/notes/agenda.org" "~/notes/tasks.org"))
+   '("~/phd/projects/MHA/README.org" "~/notes/minor-project.org" "~/notes/agenda.org" "~/notes/tasks.org"))
  '(reftex-cite-format
    '((97 . "\\autocite[]{%l}")
      (98 . "\\blockcquote[]{%l}{}")
