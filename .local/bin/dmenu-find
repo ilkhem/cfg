@@ -2,7 +2,7 @@
 
 # dmenu script to search for files
 
-chosen=$(find $HOME ! -iregex ".*/\..*" | rofi -threads 0 -dmenu -config ~/.config/rofi/themes/center.rasi -i -p "Find: ")
+chosen=$(find $HOME/Dropbox/zotero ! -iregex ".*/\..*" | rofi -threads 0 -dmenu -config ~/.config/rofi/themes/center.rasi -i -p "Find: ")
 
 xdg-open $chosen
 

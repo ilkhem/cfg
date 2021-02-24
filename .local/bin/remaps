@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Increase key speed via a rate change
+xset r rate 300 50
+
+# Map caps lock to left control:
+#    keyboard map and options set with `localectl set-x11-keymap gb "" "" caps:ctrl_modifier,shift:both_capslock` which is persistent, otherwise run
+# setxkbmap gb -option caps:ctrl_modifier,shift:both_capslock
+
+# When caps lock is pressed once, treat it as escaoe
+killall xcape 2>/dev/null ; xcape -e Caps_Lock=Escape
+
+# Map menu to right super
+xmodmap -e 'keycode 135 = Super_R'

@@ -7,7 +7,7 @@ case $BLOCK_BUTTON in
 	# 2) pamixer -t ;;
 	# 4) pamixer --allow-boost -i 1 ;;
 	# 5) pamixer --allow-boost -d 1 ;;
-    2) amixer -q -D pulse sset Master toggle; kill -44 $(pidof dwmblocks) ;;
+    1) amixer -q -D pulse sset Master toggle; kill -44 $(pidof dwmblocks) ;;
     4) amixer -c 0 sset Master 2%+ unmute; kill -44 $(pidof dwmblocks);;
     5) amixer -c 0 sset Master 2%- unmute; kill -44 $(pidof dwmblocks) ;;
 	3) notify-send "📢 Volume module" "\- Shows volume 🔊, 🔇 if muted.
