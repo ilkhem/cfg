@@ -11,6 +11,8 @@ source ~/.config/nvim/plugin/plugins.vim
 let mapleader ="\<Space>"
 let maplocalleader =","
 
+" set background=dark
+colorscheme gruvbox
 
 " Some basics:
 set nocompatible
@@ -28,8 +30,6 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" set background=dark
-colorscheme landscape
 
 " Showcase comments in italics
 highlight Comment cterm=italic gui=italic
@@ -105,16 +105,23 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 
 """JEDI-VIM
+" use localleader instead of leader
+let g:jedi#goto_command = "<localleader>d"
+let g:jedi#goto_assignments_command = "<localleader>g"
+let g:jedi#goto_stubs_command = "<localleader>s"
+let g:jedi#goto_definitions_command = "<localleader>d"
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<localleader>n"
+let g:jedi#rename_command = "<localleader>r"
 let g:jedi#smart_auto_mappings = 1
-"<leader>n from nerd tree overwritten by jedi-vim
-let g:jedi#usages_command = "<leader>u"
-"<leader>s from easymotion overwritten by jedi-vim
-let g:jedi#goto_stubs_command = "<leader>t"
 let g:jedi#show_call_signatures = 2
 let g:jedi#show_call_signatures_delay = 250
+
+
 """ VIM-DISPATCH
 autocmd FileType python let b:dispatch = 'python %'
-map <leader>m :Dispatch<CR>
+map <leader>x :Dispatch<CR>
+
 
 """ DEOPLETE
 " call deoplete manually
@@ -125,7 +132,6 @@ map <leader>m :Dispatch<CR>
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 " use tab to backward cycle
 inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-
 
 
 """ VIMTEX
@@ -189,9 +195,6 @@ let g:UltiSnipsSnippetDirectories=['UltiSnips', 'my_snippets']
 
 
 """ LIGHTLINE
-" let g:lightline = {
-"       \ 'colorscheme': 'landscape',
-"       \ }
 let g:lightline = {
       \ 'colorscheme': 'landscape',
       \ 'active': {
@@ -206,39 +209,28 @@ let g:lightline = {
 set noshowmode  " remove --insert-- and --visual-- because lightline has them
 
 
+""" FUGITIVE
+nmap <leader>gj :diffget //3<CR>
+nmap <leader>gf :diffget //2<CR>
+nmap <leader>gs :G<CR>
+
+
 
 """ EASYMOTION
 map  <leader>/ <Plug>(easymotion-sn)
 omap <leader>/ <Plug>(easymotion-tn)
-
-" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
-" Without these mappings, `n` & `N` works fine. (These mappings just provide
-" different highlight method and have some other features )
-" map  n <Plug>(easymotion-next)
-" map  N <Plug>(easymotion-prev)
-
-" <Leader>f{char} to move to {char}
 map  <Leader>f <Plug>(easymotion-bd-f)
 nmap <Leader>f <Plug>(easymotion-overwin-f)
-
-" s{char}{char} to move to {char}{char}
 nmap <Leader>s <Plug>(easymotion-overwin-f2)
-
-" Move to line
 map <Leader>L <Plug>(easymotion-bd-jk)
 nmap <Leader>L <Plug>(easymotion-overwin-line)
-
-" Move to word
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
-
-" Turn on case-insensitive feature
-let g:EasyMotion_smartcase = 1
-
-" JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
+let g:EasyMotion_smartcase = 1 " Turn on case-insensitive feature
 let g:EasyMotion_startofline = 0
+
 
 
 """ VIM-SEEK
@@ -257,18 +249,20 @@ let g:Lf_PreviewInPopup = 1
 let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
 let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 
-let g:Lf_ShortcutF = "<leader><space><space>"
-noremap <leader><space>b :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
-noremap <leader>`        :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR><CR>
-noremap <leader><space>r :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
-noremap <leader><space>m :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
-noremap <leader><space>T :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
-noremap <leader><space>t :<C-U><C-R>=printf("Leaderf tag %s", "")<CR><CR>
-noremap <leader><space>l :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
-noremap <leader><space>s :<C-U><C-R>=printf("Leaderf searchHistory %s", "")<CR><CR>
-noremap <leader><space>c :<C-U><C-R>=printf("Leaderf cmdHistory %s", "")<CR><CR>
-noremap <leader><space>f :<C-U><C-R>=printf("Leaderf! rg -e %s ", "")<CR>
-noremap <leader><space>F :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR><CR>
+let g:Lf_ShortcutF = "<leader>p"
+noremap <leader>b :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>` :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR><CR>
+noremap <leader>r :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>m :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
+noremap <leader>T :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>t :<C-U><C-R>=printf("Leaderf tag %s", "")<CR><CR>
+noremap <leader>l :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+noremap <leader>S :<C-U><C-R>=printf("Leaderf searchHistory %s", "")<CR><CR>
+noremap <leader>c :<C-U><C-R>=printf("Leaderf cmdHistory %s", "")<CR><CR>
+noremap <leader>. :<C-U><C-R>=printf("Leaderf! rg -e %s ", "")<CR>
+noremap <leader>u :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR><CR>
+" the next command can be dangerous (e.g.: latest cmd is :q!), make the key binding harder to hit
+noremap <leader><space>C :<C-U><C-R>=printf("Leaderf cmdHistory %s", "")<CR><CR><CR>
 
 
 

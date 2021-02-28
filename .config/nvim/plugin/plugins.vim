@@ -36,7 +36,8 @@ Plug 'christoomey/vim-tmux-navigator' " Tmux integration
 " Plug 'benmills/vimux' " run code and stuff in a tmux split
 Plug 'tpope/vim-eunuch' " File system navigation
 Plug 'ntpeters/vim-better-whitespace' " Syntax errors
-Plug 'junegunn/goyo.vim' " Markdown support
+Plug 'junegunn/goyo.vim' " Zen mode
+Plug 'plasticboy/vim-markdown' " Markdwon support
 Plug 'tpope/vim-fugitive' " Git support
 Plug 'junegunn/gv.vim'
 " Plug 'jreybert/vimagit'  " the other git plugin
@@ -45,6 +46,7 @@ Plug 'andymass/vim-matchup'  " Better parenmtach
 " Themes
 Plug 'ap/vim-css-color' " hex color blocks in vim
 Plug 'itchyny/landscape.vim'
+Plug 'morhetz/gruvbox'
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'icymind/NeoSolarized'
 " Plug 'lifepillar/vim-solarized8'
