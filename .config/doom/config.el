@@ -74,29 +74,6 @@
 
 
 
-;; ------------------------------------------------------------------------------
-;; MU4E
-
-(set-email-account! "gmail"
-  '((mu4e-sent-folder       . "/gmail/Sent Mail")
-    (mu4e-drafts-folder     . "/gmail/Drafts")
-    (mu4e-trash-folder      . "/gmail/Trash")
-    (mu4e-refile-folder     . "/gmail/All Mail")
-    (smtpmail-smtp-user     . "mrlaysoun@gmail.com")
-    (user-mail-address      . "mrlaysoun@gmail.com")    ;; only needed for mu < 1.4
-    (mu4e-get-mail-command  . "mbsync -c ~/.config/mu4e/mbsyncrc -a")
-    (User-full-name         . "Ilyes khemakhem")
-    (mu4e-compose-signature . "---\nIlyes"))
-  t)
-
-(setq mu4e-maildir-shortcuts
-      '(("/gmail/Inbox"      . ?i)
-        ("/gmail/Sent Items" . ?s)
-        ("/gmail/Drafts"     . ?d)
-        ("/gmail/Trash"      . ?t)))
-
-
-
 ;;;;;;;;;; LANGUAGES ;;;;;;;;;;;
 
 ;; ------------------------------------------------------------------------------
@@ -109,7 +86,7 @@
 ;; ------------------------------------------------------------------------------
 ;; ORG
 
-(setq deft-directory "~/notes"
+(setq deft-directory "~/docs/notes"
       deft-extensions '("org" "txt")
       deft-recursive t)
 
@@ -147,11 +124,11 @@
     (defadvice! org-edit-latex-emv-after-insert ()
       :after #'org-cdlatex-environment-indent
       (org-edit-latex-environment))
-  (setq org-directory "~/notes/"
+  (setq org-directory "~/docs/notes/"
         org-use-property-inheritance t  ; it's convenient to have properties inherited
         ;; org-export-in-background t        ; run export processes in external emacs process
         ;; org-catch-invisible-edits 'smart  ; try not to accidently do weird stuff in invisible regions
-        org-agenda-files '("~/notes/agenda.org" "~/notes/tasks.org")
+        org-agenda-files '("~/docs/notes/agenda.org" "~/docs/notes/tasks.org")
         org-default-notes-file (expand-file-name "notes.org" org-directory)
         org-ellipsis " ▾ "
         org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
@@ -163,7 +140,7 @@
             ("DONE" :foreground "#50a14f" :weight normal :underline t)
             ("CANCELLED" :foreground "#ff6480" :weight normal :underline t))
         org-log-done 'time
-        org-journal-dir "~/notes/journal/"
+        org-journal-dir "~/docs/notes/journal/"
         org-journal-date-prefix "#+TITLE: "
         org-journal-time-prefix "* "
         org-journal-date-format "%A, %d %b %Y"
