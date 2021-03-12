@@ -35,19 +35,19 @@ case "$choice" in
 		echo "Program terminated." && exit 1
 	;;
     dwm)
-        folder="$HOME/.source/dwm-6.2"
+        folder="$HOME/.local/src/dwm-6.2"
         choice="config.def.h"
     ;;
     dwmblocks)
-        folder="$HOME/.source/dwmblocks"
+        folder="$HOME/.local/src/dwmblocks"
         choice="blocks.h"
     ;;
     st)
-        folder="$HOME/.source/st-0.8.4"
+        folder="$HOME/.local/src/st-0.8.4"
         choice="config.def.h"
     ;;
     dmenu)
-        folder="$HOME/.source/dmenu-5.0"
+        folder="$HOME/.local/src/dmenu-5.0"
         choice="config.def.h"
     ;;
 	alacritty)

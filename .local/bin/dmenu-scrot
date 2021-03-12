@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMG_PATH=/home/ilyes/screenshots/
+IMG_PATH=/home/ilyes/pics/screenshots/
 FS_DELAY=0.5
 EDIT=gimp
 TIME=3000 #Miliseconds notification should remain visible
