@@ -3,26 +3,21 @@ call plug#begin('~/.config/nvim/plugged')
 " Addons
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'easymotion/vim-easymotion'
 Plug 'goldfeld/vim-seek'
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 
+" Plug 'vimwiki/vimwiki'
 " Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'mileszs/ack.vim' " project wide search
 Plug 'neomake/neomake' " async running stuff
 Plug 'tpope/vim-dispatch' " async running stuff
 Plug 'itchyny/lightline.vim' " lightline
 " (python) autocomplete and syntax check (async)
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-let g:deoplete#enable_at_startup = 1
-let g:jedi#completions_enabled = 0
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'davidhalter/jedi-vim'
 

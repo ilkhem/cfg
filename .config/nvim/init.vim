@@ -91,6 +91,18 @@ autocmd BufRead,BufNewFile xresources,xdefaults set filetype=xdefaults
 autocmd BufWritePost .Xresources,.Xdefaults,Xresources,Xdefaults,xresources,xdefaults !xrdb %
 """""" PLUGINS CONFIG
 
+""" DEOPLETE
+let g:deoplete#enable_at_startup = 1
+" call deoplete manually
+"call deoplete#custom#option({
+"      \ 'auto_complete_popup': 'manual',
+"      \ })
+" use tab to forward cycle
+inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" use tab to backward cycle
+inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+
 """ GOYO plugin makes text more readable when writing prose:
 map <leader>z :Goyo<CR>
 " Enable Goyo by default for mutt writing
@@ -98,6 +110,7 @@ map <leader>z :Goyo<CR>
 " autocmd BufRead,BufNewFile /tmp/neomutt* :Goyo | set bg=light
 " autocmd BufRead,BufNewFile /tmp/neomutt* map ZZ :Goyo\|x!<CR>
 " autocmd BufRead,BufNewFile /tmp/neomutt* map ZQ :Goyo\|q!<CR>
+
 
 """ NERD TREE
 map <leader>n :NERDTreeToggle<CR>
@@ -116,22 +129,12 @@ let g:jedi#rename_command = "<localleader>r"
 let g:jedi#smart_auto_mappings = 1
 let g:jedi#show_call_signatures = 2
 let g:jedi#show_call_signatures_delay = 250
+let g:jedi#completions_enabled = 0  " let deoplete handle the completion
 
 
 """ VIM-DISPATCH
 autocmd FileType python let b:dispatch = 'python %'
 map <leader>x :Dispatch<CR>
-
-
-""" DEOPLETE
-" call deoplete manually
-"call deoplete#custom#option({
-"      \ 'auto_complete_popup': 'manual',
-"      \ })
-" use tab to forward cycle
-inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-" use tab to backward cycle
-inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 
 """ VIMTEX
@@ -264,6 +267,12 @@ noremap <leader>u :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR
 " the next command can be dangerous (e.g.: latest cmd is :q!), make the key binding harder to hit
 noremap <leader><space>C :<C-U><C-R>=printf("Leaderf cmdHistory %s", "")<CR><CR><CR>
 
+
+
+""" AUTOFORMAT
+noremap <F3> :Autoformat<CR>
+" noremap <F4> :AutoformatLine<CR>
+" au BufWrite * :Autoformat
 
 
 
