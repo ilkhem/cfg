@@ -6,13 +6,11 @@ function runonce() {
         pgrep -u $USER -x $pgname > /dev/null || $1
 }
 
-# Commands that need to run in the background
+# Commands that run in the background shouldn't be restarted when dwm is restared ---> use runonce
 runonce "picom" &
-runonce "setbg" &
 runonce "dwmblocks" &
 runonce "powerkit" &
 runonce "lxpolkit" &
-
-# Commands that are only run once
 autorandr -c --default default &
-remaps &
+setbg &
+remaps & # remaps calls xcape with "killall xcape; xcape" so that only one instance is running, even on dwm restart
