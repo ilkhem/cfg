@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rsync -urvP ~/.local/src/new_website/dst/ website:public_html

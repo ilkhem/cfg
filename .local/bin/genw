@@ -1,0 +1,4 @@
+#!/bin/sh
+
+rm ~/.local/src/new_website/dst/.files
+ssg5 ~/.local/src/new_website/src ~/.local/src/new_website/dst "Ilyes Khemkahem" "https://khemakhem.xyz"
