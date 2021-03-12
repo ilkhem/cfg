@@ -2,6 +2,7 @@
 
 case $BLOCK_BUTTON in
         1) pmenu ;;
+        6) st -e nvim "$0"
 esac
 
-echo "🔆 "
+echo " "

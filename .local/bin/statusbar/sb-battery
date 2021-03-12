@@ -16,6 +16,15 @@ case $BLOCK_BUTTON in
 	6) st -e nvim "$0" ;;
 esac
 
+function chargingcap() {
+        [ $1 -le 5 ] && echo " "
+        [ $1 -ge 6 ] && [ $1 -le 25 ] && echo " "
+        [ $1 -ge 26 ] && [ $1 -le 50 ] && echo " "
+        [ $1 -ge 51 ] && [ $1 -le 75 ] && echo " "
+        [ $1 -ge 76 ] && echo " "
+}
+
+
 # Check if battery directories are detected
 [ ! -e /sys/class/power_supply/BAT?* ] && echo "No battery found" && exit 1
 
@@ -25,15 +34,18 @@ do
 	# Sets up the status and capacity
 	status=$(cat "$battery/status")
 	case "$status" in
-		"Full") status="⚡" ;;
+		"Full") status=" " ;;
+		# "Full") status="⚡" ;;
 		"Discharging") status="🔋" ;;
-		"Charging") status="🔌" ;;
+		"Charging") status=" " ;;
+		# "Charging") status="🔌" ;;
 		"Not charging") status="🛑" ;;
 		"Unknown") status="♻️" ;;
 	esac
 	capacity=$(cat "$battery/capacity")
+    [ "$status" = "🔋" ] && status=$(chargingcap "$capacity")
 	# Will make a warn variable if discharging and low
-	[ "$status" = "🔋" ] && [ "$capacity" -le 25 ] && warn="❗"
+	# [ "$status" = "🔋" ] && [ "$capacity" -le 25 ] && warn="❗"
 	# Prints the info
-	printf "%s%s%d%%\n" "$status" "$warn" "$capacity"; unset warn
+	printf "%s%d%%\n" "$status" "$capacity"
 done

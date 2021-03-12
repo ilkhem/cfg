@@ -1,20 +1,38 @@
 #!/bin/sh
 
+# This scripts outputs the Artist - Title of the song playing on spotify
+# If Artist - Title is too long, truncate it to fit withit dwmblocks
+
+# Requires: playerctl, spotify
+
+function query() {
+        playerctl -p spotify metadata | grep xesam:$1 | sed "s/\s\s\s*/ /" | cut -d' ' -f 3-
+}
+# A much simpler way is to use `playerctl -p spotify metadata KEY, but doesn't work for URL
+
 case $BLOCK_BUTTON in
     # 1) spotify ;;
-	3) playerctl play-pause ;;
-    5) playerctl previous ;;
-    4) playerctl next ;;
+    2) query "url" | xclip && notify-send "Song URL copied to primary" ;;
+ 	3) playerctl -p spotify play-pause ;;
+    5) playerctl -p spotify previous ;;
+    4) playerctl -p spotify next ;;
 	6) st -e nvim "$0" ;;
 esac
 
-
-STATUS=$(qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get org.mpris.MediaPlayer2.Player PlaybackStatus)
-ARTIST=$(qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Metadata | grep xesam:artist | awk -F: '{print $3}')
-TRACK=$(qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Metadata | grep xesam:title | awk -F: '{print $3}')
-SPOTIFY_NAME="${ARTIST} -${TRACK}"
+STATUS=$(playerctl -p spotify status)
+ARTIST=$(playerctl -p spotify metadata artist)
+TRACK=$(playerctl -p spotify metadata title)
+SPOTIFY_NAME="${ARTIST} - ${TRACK}"
 ARL=$(echo $ARTIST | wc -m)
 TRL=$(echo $TRACK | wc -m)
 LL=$((ARL + TRL))
 [ $LL -le 58 ] || SPOTIFY_NAME="${SPOTIFY_NAME:0:55}..."
-[ "$STATUS" = "Playing" ] && echo "🎷$SPOTIFY_NAME"
+[ "$STATUS" = "Playing" ] && echo " $SPOTIFY_NAME"
+[ "$STATUS" = "Paused" ] && echo " $SPOTIFY_NAME"
+
+
+# the qdbus implementation requires qt-tools
+# STATUS=$(qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get org.mpris.MediaPlayer2.Player PlaybackStatus)
+# ARTIST=$(qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Metadata | grep xesam:artist | awk -F: '{print $3}')
+# TRACK=$(qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Metadata | grep xesam:title | awk -F: '{print $3}')
+

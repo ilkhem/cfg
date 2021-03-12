@@ -9,4 +9,5 @@ case $BLOCK_BUTTON in
 esac
 
 # checkupdates | wc -l | awk '{printf ("📦 %i updates\n", $1)}'
-checkupdates | wc -l | awk '{printf ("📦 %i\n", $1)}'
+checkupdates | wc -l | awk '{printf (" %i\n", $1)}'
+# checkupdates | wc -l | awk '{printf ("📦 %i\n", $1)}'
