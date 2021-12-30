@@ -41,8 +41,8 @@ set wildmode=longest,list,full
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " persistent undo
-set undodir=~/.config/nvim/undo/
 set undofile
+set undodir=~/.config/nvim/new_undo/
 set undolevels=1000
 set undoreload=10000
 
@@ -70,10 +70,10 @@ nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
 
 " Get off my lawn - helpful when learning Vim :)
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>
+" nnoremap <Left> :echoe "Use h"<CR>
+" nnoremap <Right> :echoe "Use l"<CR>
+" nnoremap <Up> :echoe "Use k"<CR>
+" nnoremap <Down> :echoe "Use j"<CR>
 
 " Automatically deletes all trailing whitespace on save.
 autocmd BufWritePre * %s/\s\+$//e
