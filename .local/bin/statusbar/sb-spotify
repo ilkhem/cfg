@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# This scripts outputs the Artist - Title of the song playing on spotify
+# This script outputs the Artist - Title of the song playing on spotify
 # If Artist - Title is too long, truncate it to fit withit dwmblocks
 
 # Requires: playerctl, spotify
@@ -12,6 +12,7 @@ function query() {
 
 case $BLOCK_BUTTON in
     # 1) spotify ;;
+ 	1) playerctl -p spotify play-pause ;;
     2) query "url" | xclip && notify-send "Song URL copied to primary" ;;
  	3) playerctl -p spotify play-pause ;;
     5) playerctl -p spotify previous ;;

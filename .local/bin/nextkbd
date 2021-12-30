@@ -28,3 +28,4 @@ else
 fi
 
 setxkbmap "$NEXT_LAYOUT"
+remaps
