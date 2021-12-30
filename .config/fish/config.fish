@@ -3,10 +3,10 @@
 # set -U fish_user_paths $HOME/.local/bin $HOME/Applications $fish_user_paths
 set -x PATH $HOME/.local/bin $HOME/Applications $PATH $HOME/.luarocks/bin $HOME/.local/bin/statusbar
 set fish_greeting                      # Supresses fish's intro message
-# set TERMINAL "st"              # Sets the terminal type
+set TERMINAL "st"              # Sets the terminal type
 set EDITOR "nvim"      # $EDITOR use Emacs in terminal
 # set VISUAL "emacsclient -c -a emacs"   # $VISUAL use Emacs in GUI mode
-set VISUAL "alacritty -e nvim"   # $VISUAL use Emacs in GUI mode
+set VISUAL "$TERMINAL -e nvim"   # $VISUAL use Emacs in GUI mode
 
 ### SET EITHER DEFAULT EMACS MODE OR VI MODE ###
 function fish_user_key_bindings
