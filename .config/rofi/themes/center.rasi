@@ -4,18 +4,18 @@
  */
 
 * {
-    background-color:            #282c34;
-    border-color:                #ee2677;
-    text-color:                  #bbc2cf;
-    font:                        "SauceCodePro Nerd Font Mono 12";
-    prompt-font:                 "Ubuntu Bold 12";
-    prompt-background:           #02d1b8;
-    prompt-foreground:           #222222;
-    prompt-padding:              4px;
-    alternate-normal-background: #1c1f24;
-    alternate-normal-foreground: @text-color;
-    selected-normal-background:  #c68e15;
-    selected-normal-foreground:  #ffffff;
+    /* background-color:            #282c34; */
+    /* border-color:                #ee2677; */
+    /* text-color:                  #bbc2cf; */
+    /* font:                        "SauceCodePro Nerd Font Mono 12"; */
+    /* prompt-font:                 "Ubuntu Bold 12"; */
+    /* prompt-background:           #02d1b8; */
+    /* prompt-foreground:           #222222; */
+    /* prompt-padding:              4px; */
+    /* alternate-normal-background: #1c1f24; */
+    /* alternate-normal-foreground: @text-color; */
+    /* selected-normal-background:  #c68e15; */
+    /* selected-normal-foreground:  #ffffff; */
     spacing:                     3;
 }
 #window {
@@ -71,7 +71,7 @@
 }
 #entry {
     padding: 4px 4px;
-    expand: false;
+    expand: true;
     width: 10em;
 }
 #prompt {
