@@ -1,16 +1,16 @@
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-export ZSH_CUSTOM="$ZSH/custom"
+# export ZSH="$HOME/.oh-my-zsh"
+# export ZSH_CUSTOM="$ZSH/custom"
 
 # Theme
 ZSH_THEME="ilyes"
 
 # Plugins
-plugins=(pip colored-man-pages screen tmux vi-mode history-substring-search zsh-autosuggestions zsh-syntax-highlighting)
+# plugins=(pip colored-man-pages screen tmux vi-mode history-substring-search zsh-autosuggestions zsh-syntax-highlighting)
 
 # Aliases
-source $ZSH/oh-my-zsh.sh
+# source $ZSH/oh-my-zsh.sh
 source ~/.aliases
 
 # User configuration
@@ -62,9 +62,8 @@ export OPENCV_LOG_LEVEL=ERROR
 # fi
 alias config='/usr/bin/git --git-dir=/home/ilyes/.cfg/ --work-tree=/home/ilyes'
 
-colorscript random
 
-# eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 
 # configure pyenv path
 export PYENV_ROOT="$HOME/.pyenv"
